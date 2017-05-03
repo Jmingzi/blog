@@ -68,3 +68,5 @@
 }
 ```
 另外，关于移动端自适应解决方案详细参考：[讨论的问题 [个人分享会@Jmingzi]](http://gitlab.shinemo.com/ub/statics/blob/master/video.statics.jituancaiyun.com/summary/2016-11-07.md)
+
+UI组件可使用[mui](https://github.com/Jmingzi/mui)
