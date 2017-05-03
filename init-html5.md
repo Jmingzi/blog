@@ -8,6 +8,8 @@
 <head>
   <title></title>
   <meta charset="utf-8">
+  <!--图标iconfont-->
+  <link rel="stylesheet" href="//statics.jituancaiyun.com/css/h5-common-iconfont/iconfont.css">
   <!--计算分辨率 设置跟字体-->
   <script src="//statics.jituancaiyun.com/js/set-mobile-viewport/3.0/index.js"></script>
 </head>
@@ -18,6 +20,9 @@
 </body>
 </html>
 ```
+
+关于图标iconfont
+如果有新增的，请将[阿里iconfont](http://www.iconfont.cn/manage/index?manage_type=myprojects&spm=a313x.7781069.1998910419.9.62fLs5&projectId=91710&keyword=)下载后覆盖到statics项目的`css/h5-common-iconfont`
 
 在retina屏幕下，不采用缩放，1px边框的实现有2种：
 第一种，根据伪类，将边框放大后再缩小：
