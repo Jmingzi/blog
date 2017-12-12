@@ -29,3 +29,4 @@
   + [ccforward/cc](https://github.com/ccforward/cc/issues)
   + [elevensky/myblog](https://github.com/elevensky/myblog/issues)
   + [huangtengfei/blog](https://github.com/huangtengfei/blog/issues)
+  + [dwqs/blog](https://github.com/dwqs/blog/issues)
