@@ -1,5 +1,7 @@
 > 多读书，多学习，说好话
 
+现持续更新在 [jmingzi.site](http://blog.jmingzi.site/#/)
+
 【目录】
 - es6相关 
   - Promise笔记[#3](https://github.com/Jmingzi/blog/issues/3)
