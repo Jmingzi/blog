@@ -20,3 +20,37 @@ const ComponentA = () => import(
   'ComponentA'
 )
 ```
+但打包后在实际的项目中，是无法从npm包中动态下载的，因为打包时的`publicPath: ''`，包在`node_modules`目录下，未被拷贝到项目的`dist`目录中，并且`path`也无法设置。源码如下：
+
+```js
+script.src = __webpack_require__.p + "" + ({"0":"component-a","1":"none"}[chunkId]||chunkId) + ".bundle.js";
+```
+
+#### 思路
+
+我们可以引入源码，在打包时配置上 include
+```js
+rules: [
+  {
+    test: /\.(js|vue)$/,
+    include: [
+      resolve('ComponentA')
+    ]
+  }
+]
+```
+但是在 ComponentA 中通过相对路径 import 的 npm 包项目文件属于嵌套引用，我们不可能手动将它们都添加进`include`，所以可以写一个 webpack 插件去处理该情况。
+
+在 npm 包发布时，在`package.json`中可以指定`module`字段为源码 path。
+
+> webpack 从版本 2 开始也可以识别 pkg.module 字段。打包工具遇到 package1 的时候，如果存在 module 字段，会优先使用，如果没找到对应的文件，则会使用 main 字段，并按照 CommonJS 规范打包。
+
+如果有必要的情况下，我们仍然可以编写一个 babel 插件去处理引用的问题，类似 `babel-plugin-import`。
+
+
+
+
+
+
+
+
