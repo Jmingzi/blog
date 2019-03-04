@@ -8,7 +8,7 @@
 
 在Vue中，大组件可以用**纯函数组件**来实现，从而可以使页面内所有的组件平铺。
 
-但是如果组件库包含了50+或者更多组件时，打包成一个文件就会很大了。虽然我们可以`extenerls：Vue、Lazyload、polyfill`等第三方库，但打包出的文件还是很大的。
+但是如果组件库包含了50+或者更多组件时，打包成一个文件就会很大了。虽然我们可以`externals：Vue、Lazyload、polyfill`等第三方库，但打包出的文件还是很大的。
 
 #### 问题
 
@@ -47,8 +47,21 @@ rules: [
 
 如果有必要的情况下，我们仍然可以编写一个 babel 插件去处理引用的问题，类似 `babel-plugin-import`。
 
+#### 结论
 
+后编译的优势目前还是有的
+- 无需指定 externals
+- 无需为包 polyfill
+- 无冗余的 webpack 构建代码
 
+但是按需引入得分情况，例如上述的组件场景是得不偿失的，将组件拆分为多个http请求是浪费的。
+
+#### 链接
+
+- [编写一个webpack插件](https://webpack.docschina.org/contribute/writing-a-plugin/)
+- [webpack-post-compile-plugin](https://github.com/dolymood/webpack-post-compile-plugin/blob/master/lib/index.js)
+- [代码分离](https://webpack.docschina.org/guides/code-splitting/#%E9%98%B2%E6%AD%A2%E9%87%8D%E5%A4%8D-prevent-duplication-)
+- [webpack 应用编译优化之路](https://juejin.im/post/59dc57f2f265da431d3ba2ef)
 
 
 
