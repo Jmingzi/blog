@@ -89,5 +89,11 @@ checkscopeContext = {
 }
 ```
 
+## demo
 ![](../images/scope-chain.jpg)
+
+## 链接
+
+- [作用域链与闭包](https://yangbo5207.github.io/wutongluo/ji-chu-jin-jie-xi-lie/si-3001-zuo-yong-yu-lian-yu-bi-bao.html)
+- [JavaScript深入之作用域链](https://github.com/mqyqingfeng/Blog/issues/6)
 
