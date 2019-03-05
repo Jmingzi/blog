@@ -8,12 +8,26 @@
 </head>
 <body>
   <script>
-    var scope = "global scope";
-    function checkscope(){
-        var scope2 = 'local scope';
-        return scope2;
+    // var scope = "global scope";
+    // function checkscope(){
+    //     var scope2 = 'local scope';
+    //     return scope2;
+    // }
+    // checkscope();
+    var a = 20;
+
+    function test() {
+        var b = a + 10;
+
+        function innerTest() {
+            var c = 10;
+            return b + c;
+        }
+
+        return innerTest();
     }
-    checkscope();
+
+    test();
   </script>
 </body>
 </html>
