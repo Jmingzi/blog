@@ -8,7 +8,7 @@
 </head>
 <body>
 <script>
-const BubbleSort = (arr = []) => {
+const bubbleSort = (arr = []) => {
   const newArr = [...arr]
   for (let i = 0; i < arr.length - 1; i++) {
     for (let j = 0; j < newArr.length; j++) {
@@ -22,7 +22,7 @@ const BubbleSort = (arr = []) => {
   return newArr
 }
 
-const SelectionSort = (arr = []) => {
+const selectionSort = (arr = []) => {
   const newArr = [...arr]
   for (let i = 0; i < arr.length - 1; i++) {
     let min = newArr[i]
@@ -38,9 +38,22 @@ const SelectionSort = (arr = []) => {
   return newArr
 }
 
+const insertionSort = (arr = []) => {
+  const newArr = [...arr]
+  for (let i = 0; i < newArr.length; i ++) {
+    for (let j = 0; j < i; j ++) {
+      if (newArr[i] < newArr[j]) {
+        [newArr[i], newArr[j]] = [newArr[j], newArr[i]]
+      }
+    }
+  }
+  return newArr
+}
+
 const arr = [8, 6, 4, 9, 3, 2, 1]
 // console.log(BubbleSort(arr))
-console.log(SelectionSort(arr))
+// console.log(SelectionSort(arr))
+console.log(insertionSort(arr))
 </script>
 </body>
 </html>
