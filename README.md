@@ -9,7 +9,8 @@
   - [作用域与作用域链](./post/scope-chain.md)
   - 函数与调用栈
   - 原型与继承
-- 算法系列
+- 算法与数据结构系列
+  - [关于复杂度](./post/complexity.md)
   - [排序](./post/sort.md)
 - es6+系列
 - webpack系列
