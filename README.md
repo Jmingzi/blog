@@ -10,6 +10,7 @@
   - 函数与调用栈
   - 原型与继承
 - 算法系列
+  - [排序](./post/sort.md)
 - es6+系列
 - webpack系列
   - [后编译与按需引入实践](./post/post-compiler.md)
