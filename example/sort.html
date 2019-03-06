@@ -41,10 +41,10 @@ const selectionSort = (arr = []) => {
 const insertionSort = (arr = []) => {
   const newArr = [...arr]
   for (let i = 0; i < newArr.length; i ++) {
-    for (let j = 0; j < i; j ++) {
-      if (newArr[i] < newArr[j]) {
-        [newArr[i], newArr[j]] = [newArr[j], newArr[i]]
-      }
+    let index = i
+    while (index - 1 >= 0 && newArr[index] < newArr[index - 1]) {
+      [newArr[index - 1], newArr[index]] = [newArr[index], newArr[index - 1]]
+      index--
     }
   }
   return newArr

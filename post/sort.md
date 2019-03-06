@@ -58,19 +58,19 @@ const selectionSort = (arr = []) => {
 
 ### 插入排序
 
-原理：从已排好的部分中找到比它大的并插入
+原理：从左依次插入比它大的位置
 
-实现：数组长度为 n，遍历 n 次，然后遍历 i - 1 次，如果 i 处的值小于 j，则替换它
+实现：数组长度为 n，遍历 n 次，然后从左依次插入比它大的位置
 
 ```js
 const insertionSort = (arr = []) => {
   const newArr = [...arr]
   
   for (let i = 0; i < newArr.length; i ++) {
-    for (let j = 0; j < i; j ++) {
-      if (newArr[i] < newArr[j]) {
-        [newArr[i], newArr[j]] = [newArr[j], newArr[i]]
-      }
+    let index = i
+    while (index - 1 >= 0 && newArr[index] < newArr[index - 1]) {
+      [newArr[index - 1], newArr[index]] = [newArr[index], newArr[index - 1]]
+      index--
     }
   }
   
