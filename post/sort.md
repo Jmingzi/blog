@@ -7,19 +7,26 @@
 数组长度为n，遍历 n - 1 次，每次循环 n - i - 1 次找出一个最大值或最小值
 
 ```js
-const arr = [8, 6, 4, 9, 3, 2, 1]
-let newArr = arr
+const BubbleSort = (arr = []) => {
+  let newArr = [...arr]
 
-for (let i = 0; i < arr.length - 1; i++) {
-  for (let j = 0; j < newArr.length; j++) {
-    if (j === newArr.length - i - 1) {
-      break
-    } else if (newArr[j] > newArr[j + 1]) {
-      [newArr[j], newArr[j + 1]] = [newArr[j + 1], newArr[j]]
+  for (let i = 0; i < arr.length - 1; i++) {
+    for (let j = 0; j < newArr.length; j++) {
+      if (j === newArr.length - i - 1) {
+        break
+      } else if (newArr[j] > newArr[j + 1]) {
+        [newArr[j], newArr[j + 1]] = [newArr[j + 1], newArr[j]]
+      }
     }
   }
+
+  return newArr
 }
-console.log(newArr)
+```
+测试
+```js
+const arr = [8, 6, 4, 9, 3, 2, 1]
+console.log(BubbleSort(arr))
 ```
 
 ### 选择排序

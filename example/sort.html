@@ -8,19 +8,24 @@
 </head>
 <body>
 <script>
-const arr = [8, 6, 4, 9, 3, 2, 1]
-let newArr = arr
+const BubbleSort = (arr = []) => {
+  let newArr = [...arr]
 
-for (let i = 0; i < arr.length - 1; i++) {
-	for (let j = 0; j < newArr.length; j++) {
-		if (j === newArr.length - i - 1) {
-			break
-		} else if (newArr[j] > newArr[j + 1]) {
-      [newArr[j], newArr[j + 1]] = [newArr[j + 1], newArr[j]]
+  for (let i = 0; i < arr.length - 1; i++) {
+    for (let j = 0; j < newArr.length; j++) {
+      if (j === newArr.length - i - 1) {
+        break
+      } else if (newArr[j] > newArr[j + 1]) {
+        [newArr[j], newArr[j + 1]] = [newArr[j + 1], newArr[j]]
+      }
     }
-	}
+  }
+
+  return newArr
 }
-console.log(newArr)
+
+const arr = [8, 6, 4, 9, 3, 2, 1]
+console.log(BubbleSort(arr))
 </script>
 </body>
 </html>
