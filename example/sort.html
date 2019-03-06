@@ -9,8 +9,7 @@
 <body>
 <script>
 const BubbleSort = (arr = []) => {
-  let newArr = [...arr]
-
+  const newArr = [...arr]
   for (let i = 0; i < arr.length - 1; i++) {
     for (let j = 0; j < newArr.length; j++) {
       if (j === newArr.length - i - 1) {
@@ -20,12 +19,28 @@ const BubbleSort = (arr = []) => {
       }
     }
   }
+  return newArr
+}
 
+const SelectionSort = (arr = []) => {
+  const newArr = [...arr]
+  for (let i = 0; i < arr.length - 1; i++) {
+    let min = newArr[i]
+    let minIndex = i
+    for (let j = i + 1; j < newArr.length; j++) {
+      if (newArr[j] < min) {
+        min = newArr[j]
+        minIndex = j
+      }
+    }
+    [newArr[i], newArr[minIndex]] = [newArr[minIndex], newArr[i]]
+  }
   return newArr
 }
 
 const arr = [8, 6, 4, 9, 3, 2, 1]
-console.log(BubbleSort(arr))
+// console.log(BubbleSort(arr))
+console.log(SelectionSort(arr))
 </script>
 </body>
 </html>
