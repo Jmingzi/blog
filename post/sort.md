@@ -33,32 +33,58 @@ const arr = [8, 6, 4, 9, 3, 2, 1]
   ```
 </details>
 
+<details>
+  <summary>实现二</summary>
+  
+  ```js
+  const bubbleSort2 = (arr = []) => {
+    const newArr = [...arr]
+    
+    for (let i = 0; i < arr.length - 1; i++) {
+      let j = 0
+      while (j < newArr.length - i && newArr[j + 1] !== undefined) {
+        if (newArr[j] > newArr[j + 1]) {
+          [newArr[j], newArr[j + 1]] = [newArr[j + 1], newArr[j]]
+        }
+        j++
+      }
+    }
+    
+    return newArr
+  }
+  ```
+</details>
+
 ### 选择排序
 
 原理：遍历选择数组中最小或最大的值
 
 实现：数组长度为 n，从左到右假设 i 处的值最小，然后遍历 n - i - 1 次找到更小的值并替换
 
-```js
-const selectionSort = (arr = []) => {
-  const newArr = [...arr]
+<details>
+  <summary>实现一</summary>
   
-  for (let i = 0; i < arr.length - 1; i++) {
-    let min = newArr[i]
-    let minIndex = i
-    
-    for (let j = i + 1; j < newArr.length; j++) {
-      if (newArr[j] < min) {
-        min = newArr[j]
-        minIndex = j
+  ```js
+  const selectionSort = (arr = []) => {
+    const newArr = [...arr]
+
+    for (let i = 0; i < arr.length - 1; i++) {
+      let min = newArr[i]
+      let minIndex = i
+
+      for (let j = i + 1; j < newArr.length; j++) {
+        if (newArr[j] < min) {
+          min = newArr[j]
+          minIndex = j
+        }
       }
+      [newArr[i], newArr[minIndex]] = [newArr[minIndex], newArr[i]]
     }
-    [newArr[i], newArr[minIndex]] = [newArr[minIndex], newArr[i]]
+
+    return newArr
   }
-  
-  return newArr
-}
-```
+  ```
+</details>
 
 ### 插入排序
 
@@ -66,18 +92,23 @@ const selectionSort = (arr = []) => {
 
 实现：数组长度为 n，遍历 n 次，然后从左依次插入比它大的位置
 
-```js
-const insertionSort = (arr = []) => {
-  const newArr = [...arr]
+<details>
+  <summary>实现一</summary>
   
-  for (let i = 0; i < newArr.length; i ++) {
-    let index = i
-    while (index - 1 >= 0 && newArr[index] < newArr[index - 1]) {
-      [newArr[index - 1], newArr[index]] = [newArr[index], newArr[index - 1]]
-      index--
+  ```js
+  const insertionSort = (arr = []) => {
+    const newArr = [...arr]
+
+    for (let i = 0; i < newArr.length; i ++) {
+      let index = i
+      while (index - 1 >= 0 && newArr[index] < newArr[index - 1]) {
+        [newArr[index - 1], newArr[index]] = [newArr[index], newArr[index - 1]]
+        index--
+      }
     }
+
+    return newArr
   }
-  
-  return newArr
-}
-```
+  ```
+</details>
+
