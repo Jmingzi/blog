@@ -11,23 +11,27 @@ const arr = [8, 6, 4, 9, 3, 2, 1]
 
 实现：数组长度为 n，遍历 n - 1 次，每次循环 n - i - 1 次找出一个最大值或最小值
 
-```js
-const bubbleSort = (arr = []) => {
-  const newArr = [...arr]
-
-  for (let i = 0; i < arr.length - 1; i++) {
-    for (let j = 0; j < newArr.length; j++) {
-      if (j === newArr.length - i - 1) {
-        break
-      } else if (newArr[j] > newArr[j + 1]) {
-        [newArr[j], newArr[j + 1]] = [newArr[j + 1], newArr[j]]
+<details>
+  <summary>实现一</summary>
+  
+  ```js
+  const bubbleSort = (arr = []) => {
+    const newArr = [...arr]
+  
+    for (let i = 0; i < arr.length - 1; i++) {
+      for (let j = 0; j < newArr.length; j++) {
+        if (j === newArr.length - i - 1) {
+          break
+        } else if (newArr[j] > newArr[j + 1]) {
+          [newArr[j], newArr[j + 1]] = [newArr[j + 1], newArr[j]]
+        }
       }
     }
+  
+    return newArr
   }
-
-  return newArr
-}
-```
+  ```
+</details>
 
 ### 选择排序
 

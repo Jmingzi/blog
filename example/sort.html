@@ -22,6 +22,20 @@ const bubbleSort = (arr = []) => {
   return newArr
 }
 
+const bubbleSort2 = (arr = []) => {
+  const newArr = [...arr]
+  for (let i = 0; i < arr.length - 1; i++) {
+    let j = 0
+    while (j < newArr.length - i && newArr[j + 1] !== undefined) {
+      if (newArr[j] > newArr[j + 1]) {
+        [newArr[j], newArr[j + 1]] = [newArr[j + 1], newArr[j]]
+      }
+      j++
+    }
+  }
+  return newArr
+}
+
 const selectionSort = (arr = []) => {
   const newArr = [...arr]
   for (let i = 0; i < arr.length - 1; i++) {
@@ -51,9 +65,9 @@ const insertionSort = (arr = []) => {
 }
 
 const arr = [8, 6, 4, 9, 3, 2, 1]
-// console.log(BubbleSort(arr))
+console.log(bubbleSort2(arr))
 // console.log(SelectionSort(arr))
-console.log(insertionSort(arr))
+// console.log(insertionSort(arr))
 </script>
 </body>
 </html>
