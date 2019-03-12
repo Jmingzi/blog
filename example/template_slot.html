@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <template id="demo">
+    <style>
+      p {
+        color: white;
+        background-color: #666;
+        padding: 5px;
+      }
+    </style>
+    <p>this is a demo</p>
+  </template>
+
+  <my-paragraph></my-paragraph>
+
+  <script>
+    customElements.define('my-paragraph',
+      class extends HTMLElement {
+        constructor() {
+          super();
+          let template = document.getElementById('demo');
+          let templateContent = template.content;
+
+          const shadowRoot = this.attachShadow({mode: 'open'})
+            .appendChild(templateContent.cloneNode(true));
+        }
+      })
+    // const template = document.getElementById('demo')
+    // console.log(template.content)
+
+    console.log(document.querySelector('my-paragraph'))
+  </script>
+</body>
+</html>

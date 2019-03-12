@@ -16,6 +16,9 @@
 - webpack系列
   - [后编译与按需引入实践](./post/post-compiler.md)
 - 框架与库系列
+- web components
+  - [概念及兼容性](./post/web_components_basic.md)
+  - [template & slot](./post/template_slot.md)
 
 
 ## Others
