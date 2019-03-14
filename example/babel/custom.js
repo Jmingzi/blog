@@ -11,7 +11,7 @@ module.exports = function ({ types: t }) {
     visitor: {
       ImportDeclaration(path, state) {
         if (path.node.source.value === 'xm-mui') {
-          console.log(path)
+          console.log(state)
           // addDefault(path.hub.file.path, 'aa', { nameHint: 'hintedName' })
           const specifiers = path.node.specifiers.map(speci => {
             // return t.importDeclaration(

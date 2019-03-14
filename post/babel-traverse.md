@@ -27,7 +27,7 @@ import Toast from 'xm-mui/lib/Toast/index.js'
 import Loading from 'xm-mui/lib/Loading/index.js'
 ```
 
-#### path 
+### path 
 
 包含了当前节点的基本属性和操作节点的方法，属性基本如下：
 
@@ -59,7 +59,7 @@ import Loading from 'xm-mui/lib/Loading/index.js'
   scope: {
     uid: 0,
     block: Node,
-    path: NodePath, // 等同于自身？
+    path: NodePath, // 等同于自身
     labels: Map{},
     references: { Toast: true, Loading: true }, // 引用
     bindings: { Toast: [Binding], Loading: [Binding] }, // 绑定的引用
@@ -79,9 +79,7 @@ import Loading from 'xm-mui/lib/Loading/index.js'
 }
 ```
 
-path 中的属性都是响应式的，对属性直接赋值会直接影响到对应的 AST 节点。
-
-path 中的方法
+path 中的属性都是响应式的，对属性直接赋值会直接影响到对应的 AST 节点。path 中的方法:
 
 ```js
 {
@@ -100,3 +98,65 @@ path 中的方法
 ```
 
 ### state
+
+```js
+{
+  file: {
+    declarations: {},
+    path: NodePath,
+    ast: Node,
+    code: 'import { Toast, Loading } from \'xm-mui\'',
+    opts: {
+      babelrc: false,
+      configFile: false,
+      plugins: [Array],
+      presets: []
+    },
+    scope: Scope
+  },
+  opts: {}, // 使用插件时，传入的参数
+  filename: ''
+}
+```
+
+另外，babel-types 是用来辅助增强 AST 节点的，里面包含了 jsx, ts 等的语法 AST，相当于是超集。babel-template 是用来快速创建节点。
+
+上面例子的实现：
+
+```js
+function ({ types: t }) {
+  return {
+    visitor: {
+      ImportDeclaration(path, state) {
+        if (path.node.source.value === 'xm-mui') {
+          // addDefault(path.hub.file.path, 'aa', { nameHint: 'hintedName' })
+          const specifiers = path.node.specifiers.map(speci => {
+            // 实现1
+            // return t.importDeclaration(
+            //   [t.importDefaultSpecifier(t.Identifier(speci.local.name))],
+            //   t.StringLiteral(`xm-mui/lib/${speci.local.name}/index.js`)
+            // )
+            // 实现2
+            // return buildImport({
+            //   IMPORT_NAME: t.identifier(speci.local.name),
+            //   SOURCE: t.StringLiteral(`xm-mui/lib/${speci.local.name}/index.js`)
+            // })
+            // 实现3
+            return template.default.ast(`
+              import ${speci.local.name} from 'xm-mui/lib/${speci.local.name}/index.js'
+            `)
+          })
+          path.replaceWithMultiple(specifiers)
+        }
+      }
+    }
+  }
+}
+```
+
+## 链接
+
+- [Babel 插件手册](https://github.com/jamiebuilds/babel-handbook/blob/master/translations/zh-Hans/plugin-handbook.md#toc-scopes)
+- [babel-plugin-import](https://github.com/ant-design/babel-plugin-import/blob/master/src/Plugin.js)
+- [babel 总揽 - AlloyTeam 17年](http://www.alloyteam.com/2017/04/analysis-of-babel-babel-overview/)
+- [前端编译技术：Babel 18年11月](http://kunkun12.com/2018/11/24/webcompiler-babel/)
