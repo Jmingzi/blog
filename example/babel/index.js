@@ -1,17 +1,24 @@
 const parser = require('@babel/parser')
 const traverse = require('@babel/traverse')
+const babel = require('@babel/core')
+const custom = require('./custom')
 
-const code = `const fn = () => {
-  console.log('arrow function')
-}`
-const ast = parser.parse(code)
-
-// console.log(traverse)
-traverse.default(ast, {
-  VariableDeclaration(path) {
-    console.log(path.get('name'))
-    // require('fs').promises.writeFile('./demo.txt', path, 'utf8')
-  }
+const code = `import { Toast, Loading } from 'xm-mui'`
+const ast = parser.parse(code, {
+  sourceType: 'module'
 })
-// console.log(parserResult)
+
+babel.transformFromAst(ast, code, {
+  plugins: [
+    [custom, {
+      name: 'ym'
+    }, 'custom']
+  ]
+}, function(err, result) {
+  if (err) throw err
+  const { code, map, ast } = result
+  console.log(code)
+})
+
+// console.log(ast.program.body)
 
