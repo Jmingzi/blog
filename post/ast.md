@@ -43,9 +43,24 @@ interface Program <: Node {
 }
 ```
 
-我们可以利用 [AST Explorer](https://astexplorer.net/) 来将代码转化成 AST帮助我们理解。
+我们可以利用 [AST Explorer](https://astexplorer.net/) 来将代码转化成 AST帮助我们理解。例如一段简单的代码被转化为 AST 树如下图
 
-![](../images/ast.jpg)
+```js
+const a = 1
+const c = 2
+
+function b(obj) {
+	let name = 'ym'
+    obj.age = 18
+  return obj
+}
+
+setTimeout(() => {}, 1000)
+
+if (a = 1) {}
+```
+
+<img src=../images/ast.jpg width=600px>
 
 在 Program body 中，都是由 statement 和 declaration 组成。
 
