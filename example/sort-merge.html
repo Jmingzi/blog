@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<script>
+  const arr = [3, 2, 4, 5, 1, 7, 6, 9, 8, 10]
+
+  const mergeSort = (function() {
+    const merge = (left, right) => {
+      const result = []
+      while (left.length && right.length) {
+        let min
+        if (left[0] < right[0]) {
+          min = left.shift()
+        } else {
+          min = right.shift()
+        }
+        result.push(min)
+      }
+      return result.concat([...left, ...right])
+    }
+
+    return (arr) => {
+      if (arr.length === 1) {
+        return arr
+      }
+      const middleIndex = Math.ceil(arr.length / 2)
+      const left = arr.slice(0, middleIndex)
+      const right = arr.slice(middleIndex)
+      return merge(mergeSort(left), mergeSort(right))
+    }
+  })()
+
+  console.log(mergeSort(arr))
+</script>
+</body>
+</html>

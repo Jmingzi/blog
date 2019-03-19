@@ -13,6 +13,7 @@
   - [关于复杂度](./post/complexity.md)
   - [排序](./post/sort.md)
     - [完全二叉树与堆排序](./post/tree-heap-sort.md)
+    - [归并排序](./post/merge-sort.md)
 - es6 与 babel 系列
   - [学习babel - 理解AST](./post/ast.md)
   - [学习babel - 插件机制](./post/babel-traverse.md)
