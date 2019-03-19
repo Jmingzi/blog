@@ -14,16 +14,20 @@
     // 数组
     let arr
 
+    const swap = (leftIndex, rightIndex) => {
+      [arr[leftIndex], arr[rightIndex]] = [arr[rightIndex], arr[leftIndex]]
+    }
+
     const swapTriangle = (i) => {
       const leftIndex = 2 * i + 1
       const rightIndex = 2 * i + 2
       const arrBoundaryIndex = arr.length - sortLen
 
       if (rightIndex <= arrBoundaryIndex && arr[i] < arr[rightIndex]) {
-        [arr[i], arr[rightIndex]] = [arr[rightIndex], arr[i]]
+        swap(i, rightIndex)
       }
       if (leftIndex <= arrBoundaryIndex && arr[i] < arr[leftIndex]) {
-        [arr[i], arr[leftIndex]] = [arr[leftIndex], arr[i]]
+        swap(i, leftIndex)
       }
     }
 
@@ -36,13 +40,16 @@
     }
 
     const poll = () => {
-      [arr[0], arr[arr.length - sortLen]] = [arr[arr.length - sortLen], arr[0]]
+      if (arr[0] > arr[arr.length - sortLen]) {
+        swap(0, arr.length - sortLen)
+      }
     }
 
     return (origin = []) => {
-      sortLen = 1
+      sortLen = 0
       arr = [...origin]
       while (sortLen < arr.length - 1) {
+        sortLen += 1
         for (let i = arr.length - sortLen; i >= 1; i --) {
           const parentIndex = Math.floor((i - 1) / 2)
           if (parentIndex === lastPi) {
@@ -56,16 +63,15 @@
         }
         // 交换最大值与最小值
         poll()
-        // 已替换索引
-        sortLen++
+        lastPi = undefined
       }
-      lastPi = undefined
       sortLen = undefined
       return arr
     }
   })()
 
   console.log(heapSort([4, 6, 8, 5, 9, 1, 2, 5, 3, 2]))
+  console.log(heapSort([6, 4]))
 </script>
 </body>
 </html>

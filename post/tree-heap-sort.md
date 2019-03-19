@@ -31,67 +31,68 @@
 - 从当前索引 i 中，找到其兄弟节点与父节点，排序使其满足最大堆特性
 - 排序后，如果当前节点存在子节点，则检查其"左右子节点三角形"是否满足最大堆特性，不满足则排序"左右子节点三角形"
 
-<details>
-  <summary>实现代码</summary>
-  
-  ```js
-  const heapSort = (function () {
-    // 去重
-    let lastPi
-    // 已排序长度
-    let sortLen
-    // 数组
-    let arr
+```js
+const heapSort = (function () {
+  // 去重
+  let lastPi
+  // 已排序长度
+  let sortLen
+  // 数组
+  let arr
 
-    const swapTriangle = (i) => {
-      const leftIndex = 2 * i + 1
-      const rightIndex = 2 * i + 2
-      const arrBoundaryIndex = arr.length - sortLen
+  const swap = (leftIndex, rightIndex) => {
+    [arr[leftIndex], arr[rightIndex]] = [arr[rightIndex], arr[leftIndex]]
+  }
 
-      if (rightIndex <= arrBoundaryIndex && arr[i] < arr[rightIndex]) {
-        [arr[i], arr[rightIndex]] = [arr[rightIndex], arr[i]]
-      }
-      if (leftIndex <= arrBoundaryIndex && arr[i] < arr[leftIndex]) {
-        [arr[i], arr[leftIndex]] = [arr[leftIndex], arr[i]]
-      }
+  const swapTriangle = (i) => {
+    const leftIndex = 2 * i + 1
+    const rightIndex = 2 * i + 2
+    const arrBoundaryIndex = arr.length - sortLen
+
+    if (rightIndex <= arrBoundaryIndex && arr[i] < arr[rightIndex]) {
+      swap(i, rightIndex)
     }
-
-    const maxHeapify = pi => {
-      // 检查左、右子节点是否存在子节点，并重新排序
-      const leftIndex = 2 * pi + 1
-      const rightIndex = 2 * pi + 2
-      swapTriangle(leftIndex)
-      swapTriangle(rightIndex)
+    if (leftIndex <= arrBoundaryIndex && arr[i] < arr[leftIndex]) {
+      swap(i, leftIndex)
     }
+  }
 
-    const poll = () => {
-      [arr[0], arr[arr.length - sortLen]] = [arr[arr.length - sortLen], arr[0]]
+  const maxHeapify = pi => {
+    // 检查左、右子节点是否存在子节点，并重新排序
+    const leftIndex = 2 * pi + 1
+    const rightIndex = 2 * pi + 2
+    swapTriangle(leftIndex)
+    swapTriangle(rightIndex)
+  }
+
+  const poll = () => {
+    if (arr[0] > arr[arr.length - sortLen]) {
+      swap(0, arr.length - sortLen)
     }
+  }
 
-    return (origin = []) => {
-      sortLen = 1
-      arr = [...origin]
-      while (sortLen < arr.length - 1) {
-        for (let i = arr.length - sortLen; i >= 1; i --) {
-          const parentIndex = Math.floor((i - 1) / 2)
-          if (parentIndex === lastPi) {
-            continue
-          }
-          // 交换得到最大值
-          swapTriangle(parentIndex)
-          // 检查是否影响叶子节点排序，影响则重新按最大堆排序
-          maxHeapify(parentIndex)
-          lastPi = parentIndex
+  return (origin = []) => {
+    sortLen = 0
+    arr = [...origin]
+    while (sortLen < arr.length - 1) {
+      sortLen += 1
+      for (let i = arr.length - sortLen; i >= 1; i --) {
+        const parentIndex = Math.floor((i - 1) / 2)
+        if (parentIndex === lastPi) {
+          continue
         }
-        // 交换最大值与最小值
-        poll()
-        // 已替换索引
-        sortLen++
+        // 交换得到最大值
+        swapTriangle(parentIndex)
+        // 检查是否影响叶子节点排序，影响则重新按最大堆排序
+        maxHeapify(parentIndex)
+        lastPi = parentIndex
       }
+      // 交换最大值与最小值
+      poll()
       lastPi = undefined
-      sortLen = undefined
-      return arr
     }
-  })()
-  ```
-</detail>  
+    sortLen = undefined
+    return arr
+  }
+})()
+```
