@@ -30,7 +30,7 @@ a(1)()
   VO: {
     anonymous: Function,
     b: undefined,
-    arguments: {
+    arguments: {  // 形参在函数初始化时就已经被确立，而此时的变量对象还未被赋值
       x: 1,
       length: 1
     }
@@ -77,6 +77,15 @@ foo()
 ## 还未验证的疑问
 
 存在于闭包中的变量与声明都会一直保存在内存中，直到垃圾回收机制认为它可以被回收。如何有效的验证？
+
+es6 中的 WeakSet 对于对象是弱引用，垃圾回收机制会忽视它的引用，可以用来作为评判标准吗？但是垃圾回收的时间是不可控的，反过来说，一个变量或函数的销毁并不等同于被回收了？
+
+## links
+
+- [MDN Closures](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Closures) 用来初步认识词法环境
+- [词法环境和闭包](https://segmentfault.com/a/1190000006719728)  用来初步理解词法环境与闭包的关系
+- [执行环境一些概念解释](https://js8.in/2013/01/01/ecmascript-262-5th-%EF%BC%9A%E6%89%A7%E8%A1%8C%E7%8E%AF%E5%A2%83%E4%B8%80%E4%BA%9B%E6%A6%82%E5%BF%B5%E8%A7%A3%E9%87%8A/)  词法环境的一些概念
+- [javascript中词法环境、领域、执行上下文以及作业详解](http://www.voidcn.com/article/p-nbxpimdy-bqz.html) 词法环境归纳性的理解
 
 
 
