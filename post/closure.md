@@ -35,8 +35,8 @@ a(1)()
       length: 1
     }
   },
-  this,
-  scope
+  this: undefined,
+  scope: [Local Context, Context.a, Global Context]
 }
 ```
 
