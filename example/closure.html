@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<script>
+  const t = new WeakSet()
+
+  const a = (x) => {
+    const b = [2]
+    const fn = () => {
+      console.log(x)
+    }
+    t.add(x)
+    t.add(b)
+    t.add(fn)
+    return fn
+  }
+
+  a([1])()
+
+  function f() {
+    console.log(xx)
+  }
+</script>
+</body>
+</html>
