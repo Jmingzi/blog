@@ -8,7 +8,6 @@
 - 深入基础系列
   - [作用域与作用域链](./post/scope-chain.md)
   - [深入理解闭包](./post/closure.md)
-  - 函数与调用栈
   - 原型与继承
 - 算法与数据结构系列
   - [关于复杂度](./post/complexity.md)
