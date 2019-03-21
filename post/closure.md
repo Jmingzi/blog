@@ -27,16 +27,14 @@ a(1)()
 由概念此处的代码产生了闭包：匿名函数和声明该函数的词法环境，即
 ```js
 {
-  VO: {
-    anonymous: Function,
-    b: undefined,
-    arguments: {  // 形参在函数初始化时就已经被确立，而此时的变量对象还未被赋值
-      x: 1,
-      length: 1
-    }
-  },
+  anonymous: Function,
+  b: undefined,
+  arguments: {  // 形参在函数初始化时就已经被确立，而此时的变量对象还未被赋值
+    x: 1,
+    length: 1
+  }
   this: undefined,
-  scope: [Local Context, Context.a, Global Context]
+  scope: [Context.a, Global Context]
 }
 ```
 
