@@ -15,8 +15,9 @@
     - [完全二叉树与堆排序](./post/tree-heap-sort.md)
     - [归并排序](./post/merge-sort.md)
 - es6 与 babel 系列
-  - [学习babel - 理解AST](./post/ast.md)
-  - [学习babel - 插件机制](./post/babel-traverse.md)
+  - [理解AST](./post/ast.md)
+  - [babel插件机制](./post/babel-traverse.md)
+  - [Decorator入门](./post/decorator.md)
 - node与webpack系列
   - [后编译与按需引入实践](./post/post-compiler.md)
 - 框架与库系列
