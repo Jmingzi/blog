@@ -3,16 +3,18 @@ const traverse = require('@babel/traverse')
 const babel = require('@babel/core')
 const custom = require('./custom')
 
-const code = `import { Toast, Loading } from 'xm-mui'`
+const code = `import { button, color } from 'tcon'`
 const ast = parser.parse(code, {
   sourceType: 'module'
 })
 
 babel.transformFromAst(ast, code, {
   plugins: [
-    [custom, {
-      name: 'ym'
-    }, 'custom']
+    [
+      custom, {
+        libPath: 'ym'
+      }
+    ]
   ]
 }, function(err, result) {
   if (err) throw err
