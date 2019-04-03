@@ -237,8 +237,6 @@ class C {
 
 还未弄清楚的是 finisher 和 extra 的作用。另外需要注意的是，如果给类添加静态属性，是需要使用`@babel/plugin-proposal-class-properties`进行转化的。
 
-## 源码分析的总结
-
 新的装饰器转换支持了 `get` 和 `set`，例如
 
 ```js
