@@ -57,85 +57,88 @@ class C {
   method () {}
 }
 ```
+<details>
+  <summary>
+  转化后的源码
+  </summary>
+  
+  ```js
+  var _class;
 
-转化后
+  /**
+   * 赋值调用Decorator，从函数语义上也可以看出来
+   * @param target {Object} 类的原型 class.prototype
+   * @param property {String} 方法或属性的名称
+   * @param decorators {Array} 装饰器数组
+   * @param descriptor {Object} 对象的属性描述
+   * @param context {Object} 类属性的初始值方法赋值调用需要的上下文
+   * @returns descriptor {Object} 对象的属性描述，用于初始化属性值
+   */
+  function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
+    // 第二部分
+    // 属性描述的拷贝
+    // 属性分为 数据属性 和 访问属性，二者公共的部分是 configurable 和 enumerable
+    var desc = {};
+    Object.keys(descriptor)
+      .forEach(function (key) {
+        desc[key] = descriptor[key];
+      });
+    desc.enumerable = !!desc.enumerable;
+    desc.configurable = !!desc.configurable;
+    // 如果该属性为类的属性值，也就是数据属性
+    // 或者该值有被初始化
+    if ('value' in desc || desc.initializer) {
+      desc.writable = true;
+    }
 
-```js
-var _class;
-
-/**
- * 赋值调用Decorator，从函数语义上也可以看出来
- * @param target {Object} 类的原型 class.prototype
- * @param property {String} 方法或属性的名称
- * @param decorators {Array} 装饰器数组
- * @param descriptor {Object} 对象的属性描述
- * @param context {Object} 类属性的初始值方法赋值调用需要的上下文
- * @returns descriptor {Object} 对象的属性描述，用于初始化属性值
- */
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
-  // 第二部分
-  // 属性描述的拷贝
-  // 属性分为 数据属性 和 访问属性，二者公共的部分是 configurable 和 enumerable
-  var desc = {};
-  Object.keys(descriptor)
-    .forEach(function (key) {
-      desc[key] = descriptor[key];
-    });
-  desc.enumerable = !!desc.enumerable;
-  desc.configurable = !!desc.configurable;
-  // 如果该属性为类的属性值，也就是数据属性
-  // 或者该值有被初始化
-  if ('value' in desc || desc.initializer) {
-    desc.writable = true;
+    // 第三部分
+    // 可以看到装饰器是写法上从下至上调用的
+    // 然后从左至右调用了装饰器，并得到最终的属性描述对象
+    desc = decorators.slice()
+      .reverse()
+      .reduce(function (desc, decorator) {
+        return decorator(target, property, desc) || desc;
+      }, desc);
+    // 初始化类的属性值
+    if (context && desc.initializer !== void 0) {
+      desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
+      desc.initializer = undefined;
+    }
+    // 将最终的属性描述对象挂载到该属性上
+    if (desc.initializer === void 0) {
+      Object.defineProperty(target, property, desc);
+      desc = null;
+    }
+    return desc;
   }
 
-  // 第三部分
-  // 可以看到装饰器是写法上从下至上调用的
-  // 然后从左至右调用了装饰器，并得到最终的属性描述对象
-  desc = decorators.slice()
-    .reverse()
-    .reduce(function (desc, decorator) {
-      return decorator(target, property, desc) || desc;
-    }, desc);
-  // 初始化类的属性值
-  if (context && desc.initializer !== void 0) {
-    desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
-    desc.initializer = undefined;
+  // 第一部分，赋值调用，等同于
+  // _class = class C { method() {} }
+  // 如果有多个属性和方法，则调用下面这个方法多次
+  // _applyDecoratedDescriptor(_class.prototype, ...)
+  // let C = _class
+  let C = (_class = class C { method() {} },
+    (_applyDecoratedDescriptor(
+      _class.prototype,
+      "method",
+      [unenumerable, readonly],
+      Object.getOwnPropertyDescriptor(_class.prototype, "method"),
+      _class.prototype
+    )),
+    _class
+  );
+
+  function readonly(target, name, descriptor) {
+    descriptor.writable = false;
+    return descriptor;
   }
-  // 将最终的属性描述对象挂载到该属性上
-  if (desc.initializer === void 0) {
-    Object.defineProperty(target, property, desc);
-    desc = null;
+
+  function unenumerable(target, name, descriptor) {
+    descriptor.enumerable = false;
+    return descriptor;
   }
-  return desc;
-}
-
-// 第一部分，赋值调用，等同于
-// _class = class C { method() {} }
-// 如果有多个属性和方法，则调用下面这个方法多次
-// _applyDecoratedDescriptor(_class.prototype, ...)
-// let C = _class
-let C = (_class = class C { method() {} },
-  (_applyDecoratedDescriptor(
-    _class.prototype,
-    "method",
-    [unenumerable, readonly],
-    Object.getOwnPropertyDescriptor(_class.prototype, "method"),
-    _class.prototype
-  )),
-  _class
-);
-
-function readonly(target, name, descriptor) {
-  descriptor.writable = false;
-  return descriptor;
-}
-
-function unenumerable(target, name, descriptor) {
-  descriptor.enumerable = false;
-  return descriptor;
-}
-```
+  ```
+</details>
 
 当源码新增静态属性赋值时
 
@@ -170,9 +173,6 @@ _descriptor = _applyDecoratedDescriptor(_class.prototype, "name", [readonly], {
 
 ```js
 class C {
-  @readonly
-  name = 'ym'
-
   @unenumerable
   @readonly
   method () {}
@@ -182,56 +182,60 @@ class C {
 }
 ```
 
-转化后，部分代码
+<details>
+  <summary>
+  转化后，部分代码
+  </summary>  
 
-```js
-function _decorate(decorators, factory, superClass, mixins) {
-  // 1.根据decorators，转化成标准的 element 
-  // 2.去重聚合 element，得到新的 newElements
-  //   {
-  //     decorators: [ƒ],
-  //     descriptor: {value: ƒ, writable: true, configurable: true, enumerable: false},
-  //     key: "getData",
-  //     kind: "method",
-  //     placement: "prototype",
-  //   }
-  // 3.然后通过 decorateElement 反向调用element.decorators中的 decorator，
-  //   与此同时，产生finishers 和 extras { element: element, finishers: finishers, extras: extras } 
-  //   最终导出成最终的格式 newElements 
-  //   { element: element, finishers: finishers }   
-  // 4.initializeClassElements，将被装饰器调用过的属性和方法重新挂载到类上
-  var decorated = api.decorateClass(_coalesceClassElements(r.d.map(_createElementDescriptor)), decorators);
-  
-  api.initializeClassElements(r.F, decorated.elements);
-  return api.runClassFinishers(r.F, decorated.finishers);
-}
+  ```js
+  function _decorate(decorators, factory, superClass, mixins) {
+    // 1.根据decorators，转化成标准的 element 
+    // 2.去重聚合 element，得到新的 newElements
+    //   {
+    //     decorators: [ƒ],
+    //     descriptor: {value: ƒ, writable: true, configurable: true, enumerable: false},
+    //     key: "getData",
+    //     kind: "method",
+    //     placement: "prototype",
+    //   }
+    // 3.然后通过 decorateElement 反向调用element.decorators中的 decorator，
+    //   与此同时，产生finishers 和 extras { element: element, finishers: finishers, extras: extras } 
+    //   最终导出成最终的格式 newElements 
+    //   { element: element, finishers: finishers }   
+    // 4.initializeClassElements，将被装饰器调用过的属性和方法重新挂载到类上
+    var decorated = api.decorateClass(_coalesceClassElements(r.d.map(_createElementDescriptor)), decorators);
 
-let C = _decorate(null, function (_initialize) {
-  class C {
-    constructor() {
-      _initialize(this);
-    }
-
+    api.initializeClassElements(r.F, decorated.elements);
+    return api.runClassFinishers(r.F, decorated.finishers);
   }
 
-  return {
-    F: C,
-    d: [{
-      kind: "method",
-      decorators: [unenumerable, readonly],
-      key: "method",
-      value: function method() {}
-    }, {
-      kind: "method",
-      decorators: [unenumerable],
-      key: "getData",
-      value: function getData() {}
-    }]
-  };
-});
-```
+  let C = _decorate(null, function (_initialize) {
+    class C {
+      constructor() {
+        _initialize(this);
+      }
 
-还未弄清楚的是 finisher 和 extra 的作用。
+    }
+
+    return {
+      F: C,
+      d: [{
+        kind: "method",
+        decorators: [unenumerable, readonly],
+        key: "method",
+        value: function method() {}
+      }, {
+        kind: "method",
+        decorators: [unenumerable],
+        key: "getData",
+        value: function getData() {}
+      }]
+    };
+  });
+  ```
+</details>  
+
+还未弄清楚的是 finisher 和 extra 的作用。另外需要注意的是，如果给类添加静态属性，是需要使用`@babel/plugin-proposal-class-properties`进行转化的。
 
 ## 源码分析的总结
 
@@ -245,13 +249,10 @@ class A {
 
 ## 装饰器的应用场景
 
-### log 函数
-
-### autobind 上下文
-
-### debounce 防抖
-
-### mixin 混入新的类方法
+- log 函数
+- autobind 上下文
+- debounce 防抖
+- mixin 混入新的类方法
 
 甚至是 异步请求的 loading 或 结果的 toast、message 都可以用上 Decorator。
 
