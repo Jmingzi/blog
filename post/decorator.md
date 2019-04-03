@@ -46,7 +46,9 @@ export default class YourComponent extends Vue {
 }
 ```
 
-## 源码分析
+## 源码分析 - legacy 版本
+
+源码为
 
 ```js
 class C {
@@ -56,7 +58,7 @@ class C {
 }
 ```
 
-`{ "legacy": true }` 时的版本
+转化后
 
 ```js
 var _class;
@@ -161,3 +163,98 @@ _descriptor = _applyDecoratedDescriptor(_class.prototype, "name", [readonly], {
   // 没有初始化上下文了
 })
 ```
+
+## 源码分析 - 新版本的转化
+
+源码为
+
+```js
+class C {
+  @readonly
+  name = 'ym'
+
+  @unenumerable
+  @readonly
+  method () {}
+
+  @unenumerable
+  getData () {}
+}
+```
+
+转化后，部分代码
+
+```js
+function _decorate(decorators, factory, superClass, mixins) {
+  // 1.根据decorators，转化成标准的 element 
+  // 2.去重聚合 element，得到新的 newElements
+  //   {
+  //     decorators: [ƒ],
+  //     descriptor: {value: ƒ, writable: true, configurable: true, enumerable: false},
+  //     key: "getData",
+  //     kind: "method",
+  //     placement: "prototype",
+  //   }
+  // 3.然后通过 decorateElement 反向调用element.decorators中的 decorator，
+  //   与此同时，产生finishers 和 extras { element: element, finishers: finishers, extras: extras } 
+  //   最终导出成最终的格式 newElements 
+  //   { element: element, finishers: finishers }   
+  // 4.initializeClassElements，将被装饰器调用过的属性和方法重新挂载到类上
+  var decorated = api.decorateClass(_coalesceClassElements(r.d.map(_createElementDescriptor)), decorators);
+  
+  api.initializeClassElements(r.F, decorated.elements);
+  return api.runClassFinishers(r.F, decorated.finishers);
+}
+
+let C = _decorate(null, function (_initialize) {
+  class C {
+    constructor() {
+      _initialize(this);
+    }
+
+  }
+
+  return {
+    F: C,
+    d: [{
+      kind: "method",
+      decorators: [unenumerable, readonly],
+      key: "method",
+      value: function method() {}
+    }, {
+      kind: "method",
+      decorators: [unenumerable],
+      key: "getData",
+      value: function getData() {}
+    }]
+  };
+});
+```
+
+还未弄清楚的是 finisher 和 extra 的作用。
+
+## 源码分析的总结
+
+新的装饰器转换支持了 `get` 和 `set`，例如
+
+```js
+class A {
+  get name() {}
+}
+```
+
+## 装饰器的应用场景
+
+### log 函数
+
+### autobind 上下文
+
+### debounce 防抖
+
+### mixin 混入新的类方法
+
+甚至是 异步请求的 loading 或 结果的 toast、message 都可以用上 Decorator。
+
+## 总结
+
+Decorator 提供了一种抽象复用代码的更优雅的方式，但是应用也需要考虑场景，不能随意使用，就像`async/await`函数一样，滥用会得不偿失。目前该提案处于 stage 2阶段，还不够稳定，学习的目的是为了拥抱未来的趋势，使用 Vue 中 `class-component` 的写法和 ts。

@@ -1,7 +1,4 @@
 class C {
-  @readonly
-  name = 'ym'
-
   @unenumerable
   @readonly
   method () {}
