@@ -252,6 +252,45 @@ getProperty(x, "m") // error: Argument of type 'm' isn't assignable to 'a' | 'b'
       return obj[key]  // 推断类型是T[K]
   }
   ```
+  - Partial,Readonly,Record 和 Pick，在 2.0 中，我们直到了泛型别名，这里的映射类型、只读类型等都是通过它扩展
+  ```typescript
+  // 可选映射类型 表示一个对象的可选属性类型
+  type Partial<T> = {
+    [P in keyof T]?: T[P]
+  }
+  // 例子
+  interface Person {
+  	name: string,
+  	age: number
+  }
+  function getPerson(person: Partial<Person>): Partial<Person> {
+  	return person
+  }
+  // age就不是必传了
+  getPerson({ name: 'ym' })
+  
+  // 只读映射类型
+  type Readonly<T> = {
+    readonly [P in keyof T]: T[P]
+  }
+
+  // 选取一组属性类型 Pick<T, K>
+  interface PickFn<T, K extends keyof T> {
+    (obj: T, ...keys: K[]): Pick<T, K>
+  }
+
+  // TODO 关于 Record 的场景，还未实现
+  ```
+  ~~~由于别名和接口很相似，所以这里的泛型别名其实也就是泛型接口~~~
+- 2.7  
+  - in 类型保护
+- 2.8
+  - 有条件类型
+      - Exclude<T, U> -- 从T中剔除可以赋值给U的类型。
+      - Extract<T, U> -- 提取T中可以赋值给U的类型。
+      - NonNullable<T> -- 从T中剔除null和undefined。
+      - ReturnType<T> -- 获取函数返回值类型。
+      - InstanceType<T> -- 获取构造函数类型的实例类型。
   
 ## 高级类型
 
