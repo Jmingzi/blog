@@ -23,6 +23,7 @@
 - 框架与库系列
   - vue
   - ts
+    - [ts 入门](./post/ts.md)
 - web components
   - [概念及兼容性](./post/web_components_basic.md)
   - [template & slot](./post/template_slot.md)
