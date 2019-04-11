@@ -44,17 +44,6 @@ ts 包含了类型检查与es代码转化 2 部分，私以为其相对于 babel
   ```
 - object
 
-## 类型断言
-
-很明确的指明 any 或 联合类型下，某种情况时的类型，例如
-
-```typescript
-const value: any = 'string'
-const len: number = (value as string).length
-```
-
-`as` 的写法兼容 jsx，`<string>value` 写法不支持。 
-
 ## 接口
 
 接口可以用来描述一个对象的属性和方法，例如
@@ -149,6 +138,7 @@ class Obj implements ObjProps {
 - 泛型数组
 - 泛型函数
 - 泛型类
+- 泛型别名
 
 上面在介绍基础类型时，提到了泛型数组，即 `Array<string>`，可以用来描述 `let list = ['1', '2']`
 
@@ -280,8 +270,9 @@ getProperty(x, "m") // error: Argument of type 'm' isn't assignable to 'a' | 'b'
   }
 
   // TODO 关于 Record 的场景，还未实现
+  function mapObject<K extends string | number, T, U>(obj: Record<K, T>, f: (x: T) => U): Record<K, U>
   ```
-  ~~~由于别名和接口很相似，所以这里的泛型别名其实也就是泛型接口~~~
+  ~~由于别名和接口很相似，所以这里的泛型别名其实也就是泛型接口~~
 - 2.7  
   - in 类型保护
 - 2.8
@@ -294,7 +285,80 @@ getProperty(x, "m") // error: Argument of type 'm' isn't assignable to 'a' | 'b'
   
 ## 高级类型
 
+了解完内置函数那一节再来看高级类型就比较轻松了，例如
 
+- 交叉类型 与 联合类型
+  ```typescript
+  // T & U
+  function extend<T, U>(first: T, second: U): T & U {}
+  // T | U
+  // 联合类型有点像类型别名
+  ```
+- 类型保护与类型谓词  
+  上面提到的类型保护有3种：`typeof` `instanceof` `in`，类型谓词 `is` parameterName is Type
+  ```typescript
+  function isFish(pet: Fish | Bird): pet is Fish {
+  	return (<Fish>pet).swim !== undefined;
+  }
+  ```
+- 类型断言  
+  很明确的指明 any 或 联合类型下，某种情况时的类型，例如
+
+  ```typescript
+  const value: any = 'string'
+  const len: number = (value as string).length
+  ```
+  `as` 的写法兼容 jsx，`<string>value` 写法不支持 jsx。   
+  > 这里的 `as` 和 `<>` 其实是强制类型转换  
+  
+  还有一种类型断言即 `!` ，感叹号，我们知道 `?:` 表示可能为空的类型，相反的 `!:` 就一定不为空了，例如 Vue 里的 `@Prop()` 写法。同理将 `!`运用到点法对象上也是可行的，例如 `name!.substr(1)`
+- 类型别名 与 字符串 或 数字 的字面量类型  
+  ```typescript
+  // 字面量类型 很容易 让人理解错 为类型别名
+  // 但是仔细想其实确实有区别的，因为别人的值都是类型，但是字符串或数字并不是类型
+  type Action = 'confirm' | 'cancel' 
+  type Range = 0 | 1 | 2 | 3
+  ```
+
+- 可辨识联合 就是一种比类型别名更厉害的类型，它具有3个要素：
+  - 具有普通的单例类型属性— 可辨识的特征。
+  -  一个类型别名包含了那些类型的联合— 联合。
+  -  此属性上的类型保护。
+  ```typescript
+  // 要素 1， kind
+  interface Square {
+      kind: "square";
+      size: number;
+  }
+  interface Rectangle {
+      kind: "rectangle";
+      width: number;
+      height: number;
+  }
+  interface Circle {
+      kind: "circle";
+      radius: number;
+  }
+  // 要素 2
+  type Shape = Square | Rectangle | Circle;
+  // 要素 3
+  function area(s: Shape) {
+    switch (s.kind) {
+      case "square": return s.size * s.size;
+      case "rectangle": return s.height * s.width;
+      case "circle": return Math.PI * s.radius ** 2;
+    }
+  }
+  ```
+
+- 索引类型和字符串索引签名
+  ```typescript
+  interface Map<T> {
+      [key: string]: T
+  }
+  let keys: keyof Map<number> // string
+  let value: Map<number>['foo'] // number
+  ```
 
 ## 编译选项
 
