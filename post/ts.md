@@ -384,7 +384,11 @@ export namespace subProp {
 }
 ```
 
-如果第三方库自己写好了声明文件，并且在 package.json 中指定了 `"types": "/path/to"` 路径，可以通过 `"typeRoots"` 字段指定默认查找声明文件的目录
+如果第三方库自己写好了声明文件，并且在 package.json 中指定了 `"types": "/path/to"` 路径，这样就可以发布为 `@types/*` 的包，但是需要提 pr 才能被官方发布。
+
+发布后，安装 `npm install --save @types/*` 就可以直接使用了，因为 ts 会通过 `"typeRoots"` 字段指定默认查找声明文件的目录。
+
+如果没有被发布，我们也可以手动引入 `import Vue from 'vue/types'`。
 
 ```json
 {
