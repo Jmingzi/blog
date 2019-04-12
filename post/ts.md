@@ -374,7 +374,31 @@ getProperty(x, "m") // error: Argument of type 'm' isn't assignable to 'a' | 'b'
 
 其中主要注意 `compilerOptions` ，
 
-### 声明文件的自动引入
+### 声明文件
+
+在项目中自己声明的 `x.d.ts` 文件默认是自动识别的，因为 ts 的根目录是 `tsconfig.json` 所在的目录，在这根目录下生命文件都会自动识别；另外第三方的库：一种是全局变量；一种是模块化变量；所以声明会有2种方式，即
+
+```js
+// 全局的
+declare function myLib(a: string): string
+interface myLib {}
+declare namespace myLib {
+  let a: string
+  class B {
+  }
+  interface C {
+  }
+}
+
+// 模块化
+export function myMethod(a: string): string
+export interface someType {}
+export namespace subProp {
+  export function foo(): void	
+}
+```
+
+如果第三方库自己写好了声明文件，并且在 package.json 中指定了 `"types": "/path/to"` 路径，可以通过 `"typeRoots"` 字段指定默认查找声明文件的目录
 
 ```json
 {
