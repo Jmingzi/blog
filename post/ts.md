@@ -6,12 +6,12 @@ ts 包含了类型检查与es代码转化 2 部分，私以为其相对于 babel
 
 所以，我觉得目前需要了解的是ts的类型注解部分，即官方文档的目录：
 
-- 基础类型
-- 接口
-- 泛型
-- 内置函数
-- 高级类型
-- 声明文件
+- [基础类型](#基础类型)
+- [接口](#接口)
+- [泛型](#泛型)
+- [内置函数](#内置函数)
+- [高级类型](#高级类型)
+- [声明文件](#声明文件)
 
 ## 基础类型
 
@@ -360,21 +360,7 @@ getProperty(x, "m") // error: Argument of type 'm' isn't assignable to 'a' | 'b'
   let value: Map<number>['foo'] // number
   ```
 
-## 编译选项
-
-我们先从最简单的 `index.ts` => `index.js` 转化开始， 编译选项分为 3 部分
-
-```json
-{
-  "compilerOptions": {},
-  "include": [],
-  "exclude": []
-}
-```
-
-其中主要注意 `compilerOptions` ，
-
-### 声明文件
+## 声明文件
 
 在项目中自己声明的 `x.d.ts` 文件默认是自动识别的，因为 ts 的根目录是 `tsconfig.json` 所在的目录，在这根目录下生命文件都会自动识别；另外第三方的库：一种是全局变量；一种是模块化变量；所以声明会有2种方式，即
 
@@ -409,3 +395,17 @@ export namespace subProp {
 ```
 
 默认为 `node_modules/@types` 文件夹下以及它们子文件夹下的所有包。
+
+## 编译选项
+
+我们先从最简单的 `index.ts` => `index.js` 转化开始， 编译选项分为 3 部分
+
+```json
+{
+  "compilerOptions": {},
+  "include": [],
+  "exclude": []
+}
+```
+
+其中主要注意 `compilerOptions` ，
