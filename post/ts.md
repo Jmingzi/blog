@@ -15,13 +15,13 @@ ts 包含了类型检查与 es 代码转化 2 部分，私以为其相对于 bab
 
 ## 基础类型
 
-- `string`
-- `boolean`
-- `number`
+- string
+- boolean
+- number
 - 数组 
-  - `string[]`, 字符数组
+  - string[], 字符数组
   - `Array<boolean>`, 泛型数组
-  - `[string, number]`  元组
+  - [string, number]  元组
     ```typescript
     // 元组的顺序要一一对应
     const list: [string, number, boolean] = ['1', 2, false]
@@ -34,15 +34,15 @@ ts 包含了类型检查与 es 代码转化 2 部分，私以为其相对于 bab
   // 切元组数量很大时 适合用 any
   const list: any[] = [1, true, 'free']
   ```
-- `void`, 可以代表 `null` 和 `undefined`
-- `null` 和 `undefined` 在编译选项 `strictNullChecks` 开启时只能赋值给自己，也建议这样使用
-- `never` 适用于那些总是抛出异常、且没有 end point 的函数
+- void, 可以代表 null 和 undefined
+- null 和 undefined 在编译选项 `strictNullChecks` 开启时只能赋值给自己，也建议这样使用
+- never 适用于那些总是抛出异常、且没有 end point 的函数
   ```typescript
   function neverTest(): never {
     throw new Error('error')
   }
   ```
-- `object`
+- object
 
 ## 接口
 
