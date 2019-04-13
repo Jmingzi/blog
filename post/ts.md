@@ -2,9 +2,9 @@
 
 ## 概述
 
-ts 包含了类型检查与es代码转化 2 部分，私以为其相对于 babel 的转换还是比较鸡肋的，例如在 ts 里我想用 `optional-chain` 写法插件怎么办？
+ts 包含了类型检查与 es 代码转化 2 部分，私以为其相对于 babel 的转换还是比较鸡肋的，例如在 ts 里我想用 `optional-chain` 写法插件怎么办？
 
-所以，我觉得目前需要了解的是ts的类型注解部分，即官方文档的目录：
+所以，我觉得目前需要了解的是 ts 的类型注解部分，即官方文档的目录：
 
 - [基础类型](#基础类型)
 - [接口](#接口)
@@ -15,34 +15,34 @@ ts 包含了类型检查与es代码转化 2 部分，私以为其相对于 babel
 
 ## 基础类型
 
-- string,
-- boolean,
-- number, 
+- `string`
+- `boolean`
+- `number`
 - 数组 
-  - string[], 字符数组
-  - Array<boolean>, 泛型数组
-  - [string, number]  元组
+  - `string[]`, 字符数组
+  - `Array<boolean>`, 泛型数组
+  - `[string, number]`  元组
     ```typescript
     // 元组的顺序要一一对应
     const list: [string, number, boolean] = ['1', 2, false]
     ```
-- enum 枚举，为新的数据类型，不属于类型校验范畴，不建议使用  
-- any, 但不确定值的类型时才用
+- `enum` 枚举，为新的数据类型，不属于类型校验范畴，不建议使用  
+- `any`, 但不确定值的类型时才用
   ```typescript
   // 同元组的例子
   // 当不确定元组类型 
   // 切元组数量很大时 适合用 any
   const list: any[] = [1, true, 'free']
   ```
-- void, 可以代表 null 和 undefined
-- null 和 undefined 在编译选项 `strictNullChecks` 开启时只能赋值给自己，也建议这样使用
-- never 适用于那些总是抛出异常、且没有 end point 的函数
+- `void`, 可以代表 `null` 和 `undefined`
+- `null` 和 `undefined` 在编译选项 `strictNullChecks` 开启时只能赋值给自己，也建议这样使用
+- `never` 适用于那些总是抛出异常、且没有 end point 的函数
   ```typescript
   function neverTest(): never {
     throw new Error('error')
   }
   ```
-- object
+- `object`
 
 ## 接口
 
@@ -412,4 +412,7 @@ export namespace subProp {
 }
 ```
 
-其中主要注意 `compilerOptions` ，
+其中主要注意 `compilerOptions` 中的 `module` 和 `target` 选项，我们不使用其转化功能，那最好使用 `esnext` 。
+
+## links
+- [如何编写 Typescript 声明文件](https://juejin.im/post/5bc406795188255c451ed3b3)
