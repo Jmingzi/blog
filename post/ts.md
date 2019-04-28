@@ -2,25 +2,25 @@
 
 ## 概述
 
-ts 包含了类型检查与es代码转化 2 部分，私以为其相对于 babel 的转换还是比较鸡肋的，例如在 ts 里我想用 `optional-chain` 写法插件怎么办？
+ts 包含了类型检查与 es 代码转化 2 部分，私以为其相对于 babel 的转换还是比较鸡肋的，例如在 ts 里我想用 `optional-chain` 写法插件怎么办？
 
-所以，我觉得目前需要了解的是ts的类型注解部分，即官方文档的目录：
+所以，我觉得目前需要了解的是 ts 的类型注解部分，即官方文档的目录：
 
-- 基础类型
-- 接口
-- 泛型
-- 内置函数
-- 高级类型
-- 声明文件
+- [基础类型](#基础类型)
+- [接口](#接口)
+- [泛型](#泛型)
+- [内置函数](#内置函数)
+- [高级类型](#高级类型)
+- [声明文件](#声明文件)
 
 ## 基础类型
 
-- string,
-- boolean,
-- number, 
+- string
+- boolean
+- number
 - 数组 
   - string[], 字符数组
-  - Array<boolean>, 泛型数组
+  - `Array<boolean>`, 泛型数组
   - [string, number]  元组
     ```typescript
     // 元组的顺序要一一对应
@@ -360,6 +360,46 @@ getProperty(x, "m") // error: Argument of type 'm' isn't assignable to 'a' | 'b'
   let value: Map<number>['foo'] // number
   ```
 
+## 声明文件
+
+在项目中自己声明的 `x.d.ts` 文件默认是自动识别的，因为 ts 的根目录是 `tsconfig.json` 所在的目录，在这根目录下生命文件都会自动识别；另外第三方的库：一种是全局变量；一种是模块化变量；所以声明会有2种方式，即
+
+```js
+// 全局的
+declare function myLib(a: string): string
+interface myLib {}
+declare namespace myLib {
+  let a: string
+  class B {
+  }
+  interface C {
+  }
+}
+
+// 模块化
+export function myMethod(a: string): string
+export interface someType {}
+export namespace subProp {
+  export function foo(): void	
+}
+```
+
+如果第三方库自己写好了声明文件，并且在 package.json 中指定了 `"types": "/path/to"` 路径，这样就可以发布为 `@types/*` 的包，但是需要提 pr 才能被官方发布。
+
+发布后，安装 `npm install --save @types/*` 就可以直接使用了，因为 ts 会通过 `"typeRoots"` 字段指定默认查找声明文件的目录。
+
+如果没有被发布，我们也可以手动引入 `import Vue from 'vue/types'`。
+
+```json
+{
+  "compilerOptions": {
+    "typeRoots": ["node_modules"]
+  }
+}
+```
+
+默认为 `node_modules/@types` 文件夹下以及它们子文件夹下的所有包。
+
 ## 编译选项
 
 我们先从最简单的 `index.ts` => `index.js` 转化开始， 编译选项分为 3 部分
@@ -372,16 +412,7 @@ getProperty(x, "m") // error: Argument of type 'm' isn't assignable to 'a' | 'b'
 }
 ```
 
-其中主要注意 `compilerOptions` ，
+其中主要注意 `compilerOptions` 中的 `module` 和 `target` 选项，我们不使用其转化功能，那最好使用 `esnext` 。
 
-### 声明文件的自动引入
-
-```json
-{
-  "compilerOptions": {
-    "typeRoots": ["node_modules"]
-  }
-}
-```
-
-默认为 `node_modules/@types` 文件夹下以及它们子文件夹下的所有包。
+## links
+- [如何编写 Typescript 声明文件](https://juejin.im/post/5bc406795188255c451ed3b3)
