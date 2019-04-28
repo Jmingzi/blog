@@ -3,7 +3,7 @@ const traverse = require('@babel/traverse')
 const babel = require('@babel/core')
 const custom = require('./custom')
 
-const code = `import { button, color } from 'tcon'`
+const code = `import 'tcon/size/button'`
 const ast = parser.parse(code, {
   sourceType: 'module'
 })
@@ -12,7 +12,8 @@ babel.transformFromAst(ast, code, {
   plugins: [
     [
       custom, {
-        libPath: 'ym'
+        libPath: 'ym',
+        noAlias: true
       }
     ]
   ]

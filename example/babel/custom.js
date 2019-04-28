@@ -17,8 +17,9 @@ module.exports = function ({ types: t }) {
     visitor: {
       ImportDeclaration: {
         enter(path, state) {
-          // console.log(state)
-          packageName = path.node.source.value
+          if (t.isStringLiteral(path.node.source)) {
+            packageName = path.node.source.value
+          }
           // if (path.node.source.value === 'xm-mui') {
           //   // console.log(state)
           //   // addDefault(path.hub.file.path, 'aa', { nameHint: 'hintedName' })
@@ -38,13 +39,12 @@ module.exports = function ({ types: t }) {
           //   path.replaceWithMultiple(specifiers)
           // }
         },
-        exit(path, { opts: { libPath } }) {
-          if (packageName === 'tcon') {
-            importModules.forEach(module => {
-              // addSideEffect(path, `${packageName}/dist/${module}.css`)
-              // addSideEffect(path, libPath ? join(libPath, `${module}.css`) : join(packageName, 'dist', `${module}.css`))
+        exit(path, { opts: { libPath, noAlias } }) {
+          const sp = packageName.split('/')
+          if (sp[0] === 'tcon') {
+            sp.slice(1).forEach(module => {
               addSideEffect(path, libPath
-                ? resolve(process.cwd(), libPath, `${module}.css`)
+                ? `${noAlias ? '.' : '@'}/${join(libPath, `${module}.css`)}`
                 : join(packageName, 'dist', `${module}.css`)
               )
             })
@@ -54,6 +54,7 @@ module.exports = function ({ types: t }) {
       },
       ImportSpecifier: {
         enter(path) {
+          console.log(path)
           importModules.push(path.node.imported.name.toLowerCase())
         }
       }

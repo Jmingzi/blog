@@ -18,6 +18,7 @@
   - [理解AST](./post/ast.md)
   - [babel插件机制](./post/babel-traverse.md)
   - [Decorator入门](./post/decorator.md)
+  - [core-js初探](./post/core-js.md)
 - node与webpack系列
   - [后编译与按需引入实践](./post/post-compiler.md)
 - 框架与库系列
