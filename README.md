@@ -29,9 +29,6 @@
   - [概念及兼容性](./post/web_components_basic.md)
   - [template & slot](./post/template_slot.md)
 
-## Others
-  + [creeperyang/blog](https://github.com/creeperyang/blog/issues)
-  + [ccforward/cc](https://github.com/ccforward/cc/issues)
-  + [elevensky/myblog](https://github.com/elevensky/myblog/issues)
-  + [huangtengfei/blog](https://github.com/huangtengfei/blog/issues)
-  + [dwqs/blog](https://github.com/dwqs/blog/issues)
+## 好的学习资料
+
+- [深入理解 TypeScript](https://jkchao.github.io/typescript-book-chinese/)
