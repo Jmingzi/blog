@@ -14,7 +14,7 @@
   - [排序](./post/sort.md)
     - [完全二叉树与堆排序](./post/tree-heap-sort.md)
     - [归并排序](./post/merge-sort.md)
-  - 树相关的算法题
+  - leetcode 算法题
     - [路径总和](./post/leetcode/112.路径总和.js)
     - [路径总和 - ii](./post/leetcode/113.路径总和-ii.js)
 - es6 与 babel 系列
