@@ -14,9 +14,6 @@
   - [排序](./post/sort.md)
     - [完全二叉树与堆排序](./post/tree-heap-sort.md)
     - [归并排序](./post/merge-sort.md)
-  - leetcode 算法题
-    - [路径总和](./post/leetcode/112.路径总和.js)
-    - [路径总和 - ii](./post/leetcode/113.路径总和-ii.js)
 - es6 与 babel 系列
   - [理解AST](./post/ast.md)
   - [babel插件机制](./post/babel-traverse.md)
@@ -31,6 +28,10 @@
 - web components
   - [概念及兼容性](./post/web_components_basic.md)
   - [template & slot](./post/template_slot.md)
+
+- 算法题
+  - [tree.112.路径总和](./post/leetcode/112.路径总和.js)
+  - [tree.113.路径总和 - ii](./post/leetcode/113.路径总和-ii.js)
 
 ## 好的学习资料
 
