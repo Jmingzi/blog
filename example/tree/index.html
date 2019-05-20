@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script src="define.js"></script>
+</head>
+<body>
+<script>
+  var isSameTree = function(p, q) {
+    if (p !== null && q !== null) {
+      if (p.val === q.val) {
+        const a = isSameTree(p.left, q.left) && isSameTree(p.right, q.right)
+        return a
+      }
+      return false
+    }
+    return p === null && q === null
+  }
+
+  console.log(isSameTree(define([10,5,15], 0), define([10,5,null,null,15], 0)))
+</script>
+</body>
+</html>
