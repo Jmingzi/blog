@@ -29,7 +29,7 @@
   - [概念及兼容性](./post/web_components_basic.md)
   - [template & slot](./post/template_slot.md)
 
-- 算法题
+## 算法题练习
   - [tree.112.路径总和](./post/leetcode/112.路径总和.js)
   - [tree.113.路径总和 - ii](./post/leetcode/113.路径总和-ii.js)
   - [tree.110.111.相同与对称的树](./post/leetcode/110.111.相同与对称的树.js)
