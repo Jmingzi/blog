@@ -35,7 +35,7 @@
   - [tree.110.111.相同与对称的树](./post/leetcode/110.111.相同与对称的树.js)
   - [tree.104.二叉树最大深度](./post/leetcode/104.二叉树的最大深度.js)
   - [tree.102.二叉树的层次遍历](./post/leetcode/102.二叉树的层次遍历.js)
-  - [tree.二叉树的锯齿形层次遍历.js](./post/leetcode/103.二叉树的锯齿形层次遍历.js)
+  - [tree.103.二叉树的锯齿形层次遍历.js](./post/leetcode/103.二叉树的锯齿形层次遍历.js)
 
 ## 好的学习资料
 
