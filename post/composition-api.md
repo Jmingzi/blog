@@ -1,5 +1,7 @@
 # @vue/composition-api 实践
 
+> 原文地址：[https://iming.work](https://iming.work/detail/5d7f5692eaa37500694ab79b)
+
 根据提案衍生的体验包 `@vue/composition-api` 我们可以对 `v3.0` 的思想加以实践。
 
 实践内容：实现一个 todo list，且列表可拖拽。demo：[示例详情](https://iming.work/demo/vue-composition-api-practice/dist/index.html#/)
