@@ -25,7 +25,9 @@
   - vue
     - [composition-api-practice](./post/composition-api.md)
   - ts
-    - [ts 入门](./post/ts.md)  
+    - [ts 入门](./post/ts.md) 
+  - electron
+    - [使用 electron 实现截图](./post/electron-crop.md)   
 - web components
   - [概念及兼容性](./post/web_components_basic.md)
   - [template & slot](./post/template_slot.md)
