@@ -9,11 +9,6 @@
   - [作用域与作用域链](./post/scope-chain.md)
   - [深入理解闭包](./post/closure.md)
   - [原型与继承](./post/prototype.md)
-- 算法与数据结构系列
-  - [关于复杂度](./post/complexity.md)
-  - [排序](./post/sort.md)
-    - [完全二叉树与堆排序](./post/tree-heap-sort.md)
-    - [归并排序](./post/merge-sort.md)
 - es6 与 babel 系列
   - [理解AST](./post/ast.md)
   - [babel插件机制](./post/babel-traverse.md)
@@ -32,6 +27,11 @@
 - web components
   - [概念及兼容性](./post/web_components_basic.md)
   - [template & slot](./post/template_slot.md)
+- 算法与数据结构系列
+  - [关于复杂度](./post/complexity.md)
+  - [排序](./post/sort.md)
+    - [完全二叉树与堆排序](./post/tree-heap-sort.md)
+    - [归并排序](./post/merge-sort.md)  
 
 ## 算法题练习
   - [tree.112.路径总和](./post/leetcode/112.路径总和.js)
