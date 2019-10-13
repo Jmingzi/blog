@@ -20,6 +20,7 @@
   - vue
     - [composition-api 实践](./post/composition-api.md)
     - [前端微架构实践](./post/micro-structure.md)
+    - [前端微架构实践（二）](./post/micro-structure-2.md)
   - ts
     - [ts 入门](./post/ts.md) 
   - electron
