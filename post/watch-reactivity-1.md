@@ -1,6 +1,7 @@
 ## Vue 3.0 —— Watch 与 Reactivity 代码走读
 
 > 本篇文章同步发表在个人博客 [Vue 3.0 —— Watch 与 Reactivity 代码走读](https://iming.work/detail/5db5502ca3180b0068a18495)
+
 > 如果对源码查看没有头绪的可以先参见[参考文章](#参考文章)
 
 本篇文章为梳理 scheduler、 effect、scheduler 与 proxy 之间的关系
@@ -24,15 +25,17 @@ setTimeout(() => {
 
 ## 代码走读
 
-先用 reactive 初始化了对象 a，所以我们看看 reactive 初始化过程，我们将 demo 代码分为 3个部分：
+我们将 demo 代码分为 3个部分：
 
 - 初始化 reactive
 - 初始化 watch
 - 赋值属性
 
-所以代码走读也分为三个部分
+所以代码走读也分为三个部分，来分别参数这三个过程。
 
 ### 第一部分
+
+先用 reactive 初始化了对象 a，所以我们看看 reactive 初始化过程
 
 ```ts
 export function reactive(target: object) {
