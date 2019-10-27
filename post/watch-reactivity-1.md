@@ -1,8 +1,9 @@
-## Vue 3 源码 —— Watch 与 Reactivity 代码走读
+## Vue 3.0 —— Watch 与 Reactivity 代码走读
 
+> 本篇文章同步发表在个人博客 [Vue 3.0 —— Watch 与 Reactivity 代码走读](https://iming.work/detail/5db5502ca3180b0068a18495)
 > 如果对源码查看没有头绪的可以先参见[参考文章](#参考文章)
 
-本篇文章为梳理 effect、scheduler 与 proxy 之间的关系
+本篇文章为梳理 scheduler、 effect、scheduler 与 proxy 之间的关系
 
 本篇文章以一个很简单小例子打断点入口开始分析，情况很单一，仅仅是一个简单的 object，没有涉及到组件实例，目的也很简单：搞清楚三者之间的工作流程、同时熟悉一些概念。
 
