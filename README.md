@@ -21,6 +21,7 @@
     - [composition-api 实践](./post/composition-api.md)
     - [前端微架构实践](./post/micro-structure.md)
     - [前端微架构实践（二）](./post/micro-structure-2.md)
+    - [vue3 源码阅读（一）—— watch与reactivity](./post/watch-reactivity-1.md)
   - ts
     - [ts 入门](./post/ts.md) 
   - electron
