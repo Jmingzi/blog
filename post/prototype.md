@@ -88,7 +88,7 @@ Super.prototype.getName = () => {}
 ```js
 Object.prototype.__proto__ !== Function.prototype
 ```
-**我们可以这样认为：以函数的角度来说，Object 从属于 Function，以对象的角度来考虑，Function 从属于 Object。 **
+**我们可以这样认为：以函数的角度来说，Object 从属于 Function，以对象的角度来考虑，Function 从属于 Object**
 
 所以，它们是2种数据类型，我们讲一个对象，其实是分为2各部分，一个是构造函数本身，另一个是构造函数原型。
 
