@@ -20,6 +20,7 @@
     - boolean
     - undefined
     - null
+    - symbol (es6)
 - 复杂数据类型（引用类型）
     - Function
     - Object
@@ -48,7 +49,7 @@ Function.__proto__.__proto__ === Object.prototype
 
 #### 2. 函数与对象的关系
 
-对象 `Object` 是一切的缔造者，因为 `Object.prototype.__proto__ === null` 它不再继承至任何类型。
+对象 `Object.prototype` 是一切的缔造者，因为 `Object.prototype.__proto__ === null` 它不再继承至任何类型。
 
 `Object` 是构造函数，js在创建函数时，默认都会创建 `prototype` 原型属性，`protoype` 是一个指针，指向这个构造函数所拥有的全部属性和方法的对象。例如：
 
@@ -63,27 +64,55 @@ Super.prototype.getName = () => {}
 
 那么函数与对象互相从属吗？
 
-- 以正常的继承逻辑思考，把 `Function` 当成是`Object.prototype`衍生出来的一种类型，例如`Date`这种，因为
+- 以正常的继承逻辑思考，`Function` 是对象，那就是 `Object.prototype` 衍生出来的一种类型，例如 `Date` 这种，因为
 
   ```js
+  Function.__proto__ === Function.prototype // 也就是说
   Function.prototype.__proto__ === Object.prototype
   ```
   这个逻辑是通的。
 
 - 反过来， `Object` 也是函数，只不过这个构造函数是由 `Function.prototype` 衍生出来。这个构造函数拥有 `Function.prototype` 的所有属性和方法，因为 
   ```js
-  Object.__proto__ === Function.prototype
+  Object.__proto__ === Function.prototype // 等同于
+  Object instanceof Function
   ```
+
+如果讲它们是如何互相引用的？
+
+同样以 2 个纬度去思考
+- 函数角度：Function 是自己的实例，同样 Object 构造函数也是它的实例
+- 对象角度：Function.prototype 函数的原型是 Object 实例
  
-但是`Object.prototype.__proto__ !== Function.prototype`，所以他们不是互相从属的关系。我们可以这样认为，所有的函数都是继承至 `Function.prototype`，但是 `Function.prototype` 在继承 `Object.prototype` 的基础上扩展了自己属性和方法。
+可以发现它们并不是完全的从属关系，只能从某种角度去认为是这样，因为 
+```js
+Object.prototype.__proto__ !== Function.prototype
+```
+**我们可以这样认为：以函数的角度来说，Object 从属于 Function，以对象的角度来考虑，Function 从属于 Object。 **
 
-`Object` 本身就是一个特例，因为它是“缔造者”的身份吧。一般我们说继承，都是构造函数的原型的指针指向另一个构造函数的原型，换句话说，就是一个构造函数的原型是另一个构造函数**原型**的实例。但是 `Object` 构造函数是 `Function` 的实例。
+所以，它们是2种数据类型，我们讲一个对象，其实是分为2各部分，一个是构造函数本身，另一个是构造函数原型。
 
-所以，它们是2种数据类型，没有互相从属的关系，只不过一个构造函数分为2各部分，一个是函数本身，另一个是原型指针所指的对象。我们可以将一个对象的构造函数和原型同时指向另一个构造函数，也可以将它们分开指向。
+```js
+// 函数
+Function.__proto__ === Function.prototype
+Function.prototype.__proto__ === Object.prototype
+
+// 数组
+Array.__proto__ === Function.prototype
+Array.prototype.__proto__ === Object.prototype
+
+// 对象
+Object.__proto__ === Function.prototype
+Object.prototype.__proto__ === null
+
+// 循环当然也是讲的2个引用指向了
+Object.__proto__ === Function.prototype
+Function.prototype.__proto__ === Object.prototype
+```
 
 ## 继承的几种模式
 
-虽然现在由新的语法规则，`es6`，`es7`等等，但我们仍可以将它当作一种语法糖来理解，虽然新的语法规则在新版本的浏览器中被实现，例如 `Class` ，但在`Object` 与 `Function` 根深蒂固的影响下，它仍然是语法糖。
+虽然现在由新的语法规则，`es6`，`es7`等等，~~但我们仍可以将它当作一种语法糖来理解~~(本质是错误的，但是可以以这样的思维去思考它)，虽然新的语法规则在新版本的浏览器中被实现，例如 `Class` ，但在`Object` 与 `Function` 根深蒂固的影响下，它仍然是语法糖。
 
 所以我们仍然可以将原型与继承当成核心的思路去理解一切。
 
