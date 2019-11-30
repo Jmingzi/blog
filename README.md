@@ -9,7 +9,7 @@
   - [作用域与作用域链](./post/scope-chain.md)
   - [深入理解闭包](./post/closure.md)
   - [原型与继承](./post/prototype.md)
-  - [js与字符集编码](https://iming.work/detail/5b80acd70b61600062edc375)
+  - [js与字符集编码](./post/unicode.md)
 - es6 与 babel 系列
   - [理解AST](./post/ast.md)
   - [babel插件机制](./post/babel-traverse.md)
