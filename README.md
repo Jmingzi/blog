@@ -10,6 +10,8 @@
   - [深入理解闭包](./post/closure.md)
   - [原型与继承](./post/prototype.md)
   - [js与字符集编码](./post/unicode.md)
+  - [js与浮点数](./post/float-number.md)
+  - [js读写binary](./post/binary.md)
 - es6 与 babel 系列
   - [理解AST](./post/ast.md)
   - [babel插件机制](./post/babel-traverse.md)
