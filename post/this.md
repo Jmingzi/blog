@@ -70,7 +70,6 @@ var fooReference = {
 };
 ```
 - base value 就是属性所在的对象或者就是 EnvironmentRecord，也就是说它的值只可能是 undefined, an Object, a Boolean, a String, a Number, or an environment record 其中的一种。
-它的值只可能是 undefined, an Object, a Boolean, a String, a Number, or an environment record 其中的一种。
 - referenced name 就是属性的名称
 
 ### 如何确定this的值
