@@ -1,4 +1,4 @@
-> 此文是对另一篇文章的总结
+> 此文是对另一篇文章的总结：[https://github.com/mqyqingfeng/Blog/issues/7](https://github.com/mqyqingfeng/Blog/issues/7)
 
 ### 前言
 
