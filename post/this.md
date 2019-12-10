@@ -76,14 +76,14 @@ var fooReference = {
 
 在函数调用时，需要确定 2 种情况，即 `CallExpression` 左侧的类型
 - `MemberExpression`
-  - 1. Let ref be the result of evaluating MemberExpression.
-  - 2. If Type(ref) is Reference, then
-    - a. If IsPropertyReference(ref) is true, then
-      - i. Let thisValue be GetBase(ref).
-    - b. Else, the base of ref is an Environment Record  
-      - i. Let thisValue be the result of calling the ImplicitThisValue concrete method of GetBase(ref).
-  - 3. Else, Type(ref) is not Reference. 
-    - a. Let thisValue be undefined.
+  - Let ref be the result of evaluating MemberExpression.
+  - If Type(ref) is Reference, then
+    - If IsPropertyReference(ref) is true, then
+      - Let thisValue be GetBase(ref).
+    - Else, the base of ref is an Environment Record  
+      - Let thisValue be the result of calling the ImplicitThisValue concrete method of GetBase(ref).
+  - Else, Type(ref) is not Reference. 
+    - Let thisValue be undefined.
 - 非 `MemberExpression`
   - thisValue be undefined.
   
