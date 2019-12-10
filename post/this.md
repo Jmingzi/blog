@@ -112,3 +112,11 @@ console.log((foo.bar, foo.bar)());
 ```
 
 对于示例 4，5，6，`CallExpression` 左侧都不是 `MemberExpression`，可以简单的说 this 就是 undefined
+
+### 总结
+
+当一个函数作为 `MemberExpression` 调用时，thisValue 一般指向对象本身。
+
+否则（例如操作符 `|| && ,`，运算 `=`），则作为函数调用，thisValue 一般为 undefined。
+
+
