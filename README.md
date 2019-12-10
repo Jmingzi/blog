@@ -12,6 +12,7 @@
   - [js与字符集编码](./post/unicode.md)
   - [js与浮点数](./post/float-number.md)
   - [js读写binary](./post/binary.md)
+  - [js中的this](./post/this.md)
   - [内存管理 - 分配与回收](./post/memory-gc.md)
 - es6 与 babel 系列
   - [理解AST](./post/ast.md)
