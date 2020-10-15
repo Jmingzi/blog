@@ -81,7 +81,7 @@
 ```
 很显然在`config`中了，直接打开`base.js`，搜索`vue-loader`
 
-```
+```js
 // vue 2 的部分
 if (vue && semver.major(vue.version) === 2) {
    // for Vue 2 projects
@@ -103,7 +103,7 @@ if (vue && semver.major(vue.version) === 2) {
 
 于是在 `vue.config.js` 中，我们也可以这样使用loader：
 
-```
+```js
 module.exports = {
   chainWebpack: config => {
    config.module.rule('md')
@@ -121,7 +121,7 @@ module.exports = {
 
 另外还需要注意的是如果初始化模版时选择了 `eslint` 我们需要将 `\.md` 文件 `exclude` 掉
 
-```
+```js
 config.module
   .rule('eslint')
   .test(/\.(vue|(j|t)sx?)$/)
@@ -158,7 +158,7 @@ const { render } = Vue.compile(template)
 
 梳理下完整流程，伪代码如下：
 
-```
+```js
 // 第一步先将sfc文件parse成为3部分：template、script和styles
 const { parse } = require('@vue/component-compiler-utils')
 const descriptor = parse({
