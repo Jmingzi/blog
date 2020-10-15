@@ -1,4 +1,4 @@
-![](http://file.iming.work/936e9623e0014f47eb64.jpg)
+<img src="http://file.iming.work/936e9623e0014f47eb64.jpg" width="500px" >
 > 图片来源 https://www.beansmile.com/blog/posts/javascript-prototype-inherit
 
 ## 一 引子
