@@ -58,7 +58,7 @@ requestIdleCallback(({ didTimeout, timeRemaining() }) => {}, { timeout })
 
 也就是说，在一帧渲染过程中，执行同步的 js 代码时长不能超过 16.67ms，实际1、2、3、5步，包括系统调度都需要耗时，严格来讲是没有 16.67ms 可用的，有可能只有 10ms 的时间。
 
-### 使用示例
+### 代码示例
 
 使用如下代码片段来观察掉帧现象，以下代码每秒都会在控制台打印，但每秒的视图更新却被阻塞了，因为同步的 `parse html` 中解析 js 的操作严重耗时。
 
@@ -98,9 +98,60 @@ while (true) {
 > Raster Scheduled、Rasterize 排版线程组织页面图块，栅格化数据，提交给GPU进程去绘制；
 > 一个数据帧渲染结束，把栅格化的数据提交给 GPU进程 去绘制页面。
 
-#### 将上述代码使用时间切片技术改造
+-----
 
+使用时间切片改造如下代码，和上述代码类似，操作 10 万次 DOM，同时可以看到 console.log 正常输出。
 
+```js
+let list = document.querySelector('.list')
+let total = 100000
+for (let i = 0; i < total; ++i) {
+  let item = document.createElement('li')
+  item.innerText = `我是${i}`
+  list.appendChild(item)
+  console.log(i)
+}
+```
+
+通过 performance 分析，结果和上述截图一致。接下来看看使用空闲回调的效果：
+
+```js
+function task () {
+  let list = document.querySelector('.list')
+  let total = 100000
+  for (let i = 0; i < total; ++i) {
+    let item = document.createElement('li')
+    item.classList.add(`r${Math.random()}`)
+    item.innerText = `我是${i}`
+    list.appendChild(item)
+    // console.log(i)
+  }
+}
+
+function ts (callback) {
+  requestIdleCallback(idleDeadline => {
+    if (idleDeadline.timeRemaining() <= 0) {
+      ts(callback)
+      return
+    }
+    callback()
+  })
+}
+
+ts(task)
+```
+
+![image](https://user-images.githubusercontent.com/9743418/102452626-9d56e100-4075-11eb-9d33-bf4f91fa9b21.png)
+
+可以看到没分隔成为了很多 task 去执行，但是有个问题你应该看到了，起初的 task 未被标红，越到后面，task 的耗时越多，点击某个标红的 task 查看详情：
+
+![image](https://user-images.githubusercontent.com/9743418/102452853-0cccd080-4076-11eb-8784-41969dd4f7b7.png)
+
+可以看到耗时都在 Rerender 上，接着 查看 Rerender 详情
+
+![image](https://user-images.githubusercontent.com/9743418/102452997-53222f80-4076-11eb-89c7-470e5b6ac66f.png)
+
+可以看到主要耗时在 `Update Layer Tree` 和 `Layout`，这说明在空闲回调中，发生了
 
 ### 一些建议
 
