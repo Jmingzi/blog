@@ -98,9 +98,7 @@ while (true) {
 > Raster Scheduled、Rasterize 排版线程组织页面图块，栅格化数据，提交给GPU进程去绘制；
 > 一个数据帧渲染结束，把栅格化的数据提交给 GPU进程 去绘制页面。
 
------
-
-使用时间切片改造如下代码，和上述代码类似，操作 10 万次 DOM，同时可以看到 console.log 正常输出。
+### 示例改造
 
 ```js
 let list = document.querySelector('.list')
@@ -113,37 +111,95 @@ for (let i = 0; i < total; ++i) {
 }
 ```
 
-通过 performance 分析，结果和上述截图一致。接下来看看使用空闲回调的效果：
+上述示例代码操作 10 万次 DOM，改造起来也是需要有成本的，有 2 种方案可选：
+
+1. 使用 generator 函数改造
+2. 将循环体 push 到队列中，由 requestIdleCallback 去消费
+
+#### generator 方案
 
 ```js
-function task () {
-  let list = document.querySelector('.list')
-  let total = 100000
-  for (let i = 0; i < total; ++i) {
-    let item = document.createElement('li')
-    item.classList.add(`r${Math.random()}`)
-    item.innerText = `我是${i}`
-    list.appendChild(item)
-    // console.log(i)
-  }
-}
-
-function ts (callback) {
-  requestIdleCallback(idleDeadline => {
-    if (idleDeadline.timeRemaining() <= 0) {
-      ts(callback)
-      return
+function* task () {
+    let list = document.querySelector('.list')
+    let total = 100000
+    for (let i = 0; i < total; ++i) {
+      let item = document.createElement('li')
+      item.classList.add(`r${Math.random()}`)
+      item.innerText = `我是${i}`
+      list.appendChild(item)
+      yield
     }
-    callback()
-  })
-}
+  }
+
+  function ts (callback) {
+    requestIdleCallback(idleDeadline => {
+      let next = callback.next()
+      while (!next.done) {
+        if (idleDeadline.timeRemaining() <= 0) {
+          ts(callback)
+          return
+        }
+        next = callback.next()
+      }
+    })
+  }
 
 ts(task)
 ```
 
-![image](https://user-images.githubusercontent.com/9743418/102452626-9d56e100-4075-11eb-9d33-bf4f91fa9b21.png)
+这样改造后的效果通过 performance 分析得到：
 
-可以看到没分隔成为了很多 task 去执行，但是有个问题你应该看到了，起初的 task 未被标红，越到后面，task 的耗时越多，点击某个标红的 task 查看详情：
+![image](https://user-images.githubusercontent.com/9743418/102455093-f6c10f00-4079-11eb-92a8-94f1a3869c24.png)
+
+#### 通过队列
+
+```js
+const queen = []
+function task () {
+  let list = document.querySelector('.list')
+  let total = 10000
+  for (let i = 0; i < total; ++i) {
+    ts(() => {
+      // 此处 dom 操作应用用 fragment 收集后
+      // 再使用 requestAnimationFrame 统一添加
+      let item = document.createElement('li')
+      item.classList.add(`r${Math.random()}`)
+      item.innerText = `我是${i}`
+      list.appendChild(item)
+    })
+    // console.log(i)
+  }
+}
+
+let isHandling
+function ts (fn) {
+  queen.push(fn)
+  if (!isHandling) {
+    requestIdleCallback(runIdle)
+  }
+}
+
+function runIdle (idleDeadline) {
+  while (idleDeadline.timeRemaining() > 0 && queen.length) {
+    const fn = queen.shift()
+    fn()
+  }
+
+  if (queen.length) {
+    isHandling = requestIdleCallback(runIdle)
+  } else {
+    isHandling = 0
+  }
+}
+
+task()
+```
+
+总的来看，通过 generator 函数去改造侵入性小一点；通过队列的方式，需要将业务代码重新组织。
+
+仔细观察上述 performance 中的 task，耗时均超过了 50 ms，被标为红色，说明是可以被优化的。查看具体的某一个 task：
+
+> chrome 针对超时的 task 给出了 warning：Warning [Long task](https://web.dev/rail/#goals-and-guidelines)，解释了为何是 50 ms的时间，大意是在用户感知的 100ms 时间前提下，留出 50 ms 的时间给用户交互带来的事件提供优先的时间去处理。
 
 ![image](https://user-images.githubusercontent.com/9743418/102452853-0cccd080-4076-11eb-8784-41969dd4f7b7.png)
 
@@ -151,11 +207,22 @@ ts(task)
 
 ![image](https://user-images.githubusercontent.com/9743418/102452997-53222f80-4076-11eb-89c7-470e5b6ac66f.png)
 
-可以看到主要耗时在 `Update Layer Tree` 和 `Layout`，这说明在空闲回调中，发生了
+可以看到主要耗时在 `Update Layer Tree` 和 `Layout`，这说明在回调执行过程中，发生了重绘和重排，我们应该将操作的 DOM 用 `createDocumentFragment` 来统一存放，然后在合适的时机使用 `requestAnimationFrame` 在下一帧中更新。
 
 ### 一些建议
 
-关于帧渲染的过程，可以从 performance 面板中的关键词着手研究：Frames、Raster、Rasterizer Thread、GPU、Compositor等
+关于帧渲染的过程与细节，其实与时间切片的知识点息息相关，我们必须要弄清楚一帧的渲染过程，才能更好的分析和优化代码。学习这个过程原理，可以从 performance 面板中的关键词着手研究：Frames、Raster、Rasterizer Thread、GPU、Compositor等，也可以从浏览器重绘重排的原理为入口着手。
+
+### 参考
+
+- [MDN Background_Tasks_API](https://developer.mozilla.org/zh-CN/docs/Web/API/Background_Tasks_API)
+- [浏览器渲染帧](https://www.jianshu.com/p/15921f80c2c5)
+- [浏览器的 16ms 渲染帧](https://harttle.land/2017/08/15/browser-render-frame.html)
+- [JavaScript中的时间分片](https://cloud.tencent.com/developer/article/1601600)
+
+
+
+
 
 
 
