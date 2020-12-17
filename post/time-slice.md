@@ -87,5 +87,24 @@ while (true) {
 
 将面板分为 3 部分来看：
 
-- 
+1. 可以总览每个 task 耗时，这里的 task 我理解为 script、macro、micro 所包含的同步 js 代码
+2. 可以看到浏览器各个线程的处理情况，我们可以理解为 network 网络请求线程、Main 主线程、其余线程（这个知识点和上述浏览器渲染帧的详细过程相关）
+   - 在主线程下，js 代码被划分为一块块的 Task，从左往右排列，从上到下为 Task 内的 Call Stack 执行顺序
+   - 从中我们还能看到，伴随着主线程 js 代码的执行，垃圾回收 GC 的调用是时时存在的，而且它们还会被 anonymous 匿名函数包裹多次调用。
+3. 这部分重要的是可以看到各个 call stack 的耗时情况以及具体到某一行的耗时代码
+
+从上图可以看到，Raster 一直被阻塞直到 Main 执行完成，在帧渲染过程中 Raster 处理完成后会交给 GPU 处理。
+
+> Raster Scheduled、Rasterize 排版线程组织页面图块，栅格化数据，提交给GPU进程去绘制；
+> 一个数据帧渲染结束，把栅格化的数据提交给 GPU进程 去绘制页面。
+
+#### 将上述代码使用时间切片技术改造
+
+
+
+### 一些建议
+
+关于帧渲染的过程，可以从 performance 面板中的关键词着手研究：Frames、Raster、Rasterizer Thread、GPU、Compositor等
+
+
 
