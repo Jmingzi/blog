@@ -58,9 +58,34 @@ requestIdleCallback(({ didTimeout, timeRemaining() }) => {}, { timeout })
 
 也就是说，在一帧渲染过程中，执行同步的 js 代码时长不能超过 16.67ms，实际1、2、3、5步，包括系统调度都需要耗时，严格来讲是没有 16.67ms 可用的，有可能只有 10ms 的时间。
 
+### 使用示例
 
+使用如下代码片段来观察掉帧现象，以下代码每秒都会在控制台打印，但每秒的视图更新却被阻塞了，因为同步的 `parse html` 中解析 js 的操作严重耗时。
 
+```js
+var then = Date.now()
+var i = 0
+var el = document.getElementById('message')
+while (true) {
+  var now = Date.now()
+  if (now - then > 1000) {
+    if (i++ >= 5) {
+      break;
+    }
+    el.innerText += 'hello!\n'
+    console.log(i)
+    then = now
+  }
+}
+```
 
+我们可以使用 `performance` 分析下
 
+> 使用 performance record 之前，将所有的扩展程序关闭以避免额外的干扰。
 
+![image](https://user-images.githubusercontent.com/9743418/102439409-30355280-4059-11eb-858b-5976c855b659.png)
+
+将面板分为 3 部分来看：
+
+- 
 
