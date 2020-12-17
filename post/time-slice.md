@@ -44,5 +44,23 @@ requestIdleCallback(({ didTimeout, timeRemaining() }) => {}, { timeout })
 
 一帧的渲染过程
 
+1. 处理用户的事件，在页面渲染的过程中，有可能会触发点击、输入、滚动等事件
+2. macro、micro 事件循环处理
+3. requestAnimationFrame 将视图更新操作放在下一帧中执行，避免在当前帧中更新视图时，导致反复重排重绘
+4. parse html、layout、paint、composite 等
+5. requestIdleCallback 空闲调度
+
+> 关于浏览器一帧渲染的详细过程我暂未考证
+
+从上可以看出 1、2、3、5 都是处理回调，将回调函数放到相应的队列中等待系统调度处理，第 4 步才是视图更新的真实操作，那么耗时的 js 操作很有可能是在第 4 步产生。
+
+当然，如果认为 `<script></script>` 标签也是 macro 的话，那么 parse html 也应该包含此操作。
+
+也就是说，在一帧渲染过程中，执行同步的 js 代码时长不能超过 16.67ms，实际1、2、3、5步，包括系统调度都需要耗时，严格来讲是没有 16.67ms 可用的，有可能只有 10ms 的时间。
+
+
+
+
+
 
 
