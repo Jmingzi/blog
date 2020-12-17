@@ -1,5 +1,3 @@
-![image](https://user-images.githubusercontent.com/9743418/102427558-8e0f6d80-404c-11eb-8606-e954942e30af.png)
-
 ## 前言
 
 ### 本文主要内容
