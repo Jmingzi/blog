@@ -38,6 +38,7 @@
     - [docker的入门与使用](./post/docker.md)
   - eslint
     - [Eslint 生态入门](./post/eslint.md)
+    - [代码规范之编辑器配置](./post/code-formatter.md)
 - web components
   - [概念及兼容性](./post/web_components_basic.md)
   - [template & slot](./post/template_slot.md)
