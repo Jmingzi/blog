@@ -1,3 +1,5 @@
+原文出处：[https://iming.work/detail/61cbfb7e316b076c47ddee0a.html](https://iming.work/detail/61cbfb7e316b076c47ddee0a.html)
+
 早些时间对这一知识点有一些归纳总结：[用 Js 读写 binary data](https://iming.work/detail/5b7cc2e6fb4ffe0058c3abf4.html)
 
 ## 概念
