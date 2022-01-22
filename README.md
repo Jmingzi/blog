@@ -16,6 +16,7 @@
   - [内存管理 - 分配与回收](./post/memory-gc.md)
   - [js与字符串](./post/js-string.md)
   - [js 时间切片](./post/time-slice.md)
+  - [用 Js 读写 binary data (二)](./post/binary-data.md)
 - es6 与 babel 系列
   - [理解AST](./post/ast.md)
   - [babel插件机制](./post/babel-traverse.md)
